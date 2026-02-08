@@ -8,8 +8,6 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from 'fs';
 import { join } from 'path';
 import { getPaiDir } from '../lib/paths';
-import { sendEventToObservability, getCurrentTimestamp, getSourceApp } from '../lib/observability';
-import { notifyTaskComplete, notifyError, getSessionDurationMinutes } from '../lib/notifications';
 import { getLearningCategory, isLearningCapture } from '../lib/learning-utils';
 import { getPSTTimestamp, getPSTDate, getYearMonth, getISOTimestamp } from '../lib/time';
 import type { ParsedTranscript, StructuredResponse } from '../../skills/CORE/Tools/TranscriptParser';
@@ -210,7 +208,7 @@ async function captureWorkSummary(text: string, structured: StructuredResponse):
       const content = generateLearningContent(structured, text, timestamp);
 
       writeFileSync(filePath, content, 'utf-8');
-      console.log(`✅ Captured learning to: ${filePath}`);
+      console.log(`Captured learning to: ${filePath}`);
     }
   } catch (error) {
     console.error('[Capture] Error capturing work summary:', error);
@@ -229,31 +227,4 @@ export async function handleCapture(parsed: ParsedTranscript, hookInput: HookInp
       console.error('[Capture] History capture failed (non-critical):', err);
     });
   }
-
-  // Push notifications for long tasks
-  const duration = getSessionDurationMinutes();
-  if (duration > 0) {
-    console.error(`⏱️ Session duration: ${duration.toFixed(1)} minutes`);
-  }
-
-  const hasError = lastMessage && (
-    /error|failed|exception|crash/i.test(lastMessage) &&
-    /📊\s*STATUS:.*(?:error|failed|broken)/i.test(lastMessage)
-  );
-
-  if (hasError) {
-    notifyError(plainCompletion).catch(() => {});
-  } else {
-    notifyTaskComplete(plainCompletion).catch(() => {});
-  }
-
-  // Observability event
-  await sendEventToObservability({
-    source_app: getSourceApp(),
-    session_id: hookInput.session_id,
-    hook_event_type: 'Stop',
-    timestamp: getCurrentTimestamp(),
-    transcript_path: hookInput.transcript_path,
-    summary: structured.completed || plainCompletion,
-  }).catch(() => {});
 }

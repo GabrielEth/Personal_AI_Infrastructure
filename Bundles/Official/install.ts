@@ -34,8 +34,6 @@ interface WizardConfig {
   daName: string;
   timeZone: string;
   userName: string;
-  elevenLabsApiKey?: string;
-  elevenLabsVoiceId?: string;
 }
 
 // =============================================================================
@@ -90,8 +88,6 @@ interface ExistingConfig {
   daName?: string;
   timeZone?: string;
   userName?: string;
-  elevenLabsApiKey?: string;
-  elevenLabsVoiceId?: string;
 }
 
 async function readExistingConfig(): Promise<ExistingConfig> {
@@ -115,13 +111,7 @@ async function readExistingConfig(): Promise<ExistingConfig> {
             case "TIME_ZONE":
               config.timeZone = value;
               break;
-            case "ELEVENLABS_API_KEY":
-              config.elevenLabsApiKey = value;
-              break;
-            case "ELEVENLABS_VOICE_ID":
-              config.elevenLabsVoiceId = value;
-              break;
-          }
+            }
         }
       }
     }
@@ -289,7 +279,6 @@ async function gatherConfig(): Promise<WizardConfig> {
     if (existing.daName) console.log(`  Found DA name: ${existing.daName}`);
     if (existing.userName) console.log(`  Found user: ${existing.userName}`);
     if (existing.timeZone) console.log(`  Found timezone: ${existing.timeZone}`);
-    if (existing.elevenLabsApiKey) console.log(`  Found ElevenLabs API key: ****${existing.elevenLabsApiKey.slice(-4)}`);
     console.log();
 
     // In update mode, just confirm existing values
@@ -299,8 +288,6 @@ async function gatherConfig(): Promise<WizardConfig> {
         daName: existing.daName,
         timeZone: existing.timeZone,
         userName: existing.userName,
-        elevenLabsApiKey: existing.elevenLabsApiKey,
-        elevenLabsVoiceId: existing.elevenLabsVoiceId,
       };
     }
     console.log("\nLet's update your configuration:\n");
@@ -347,35 +334,10 @@ async function gatherConfig(): Promise<WizardConfig> {
     timeZone = await askWithDefault("What's your timezone?", defaultTz);
   }
 
-  // Voice - in update mode, default to yes if already configured
-  const defaultWantsVoice = !!existing.elevenLabsApiKey;
-  const wantsVoice = await askYesNo(
-    "\nDo you want voice notifications? (requires ElevenLabs API key)",
-    defaultWantsVoice
-  );
-
-  let elevenLabsApiKey: string | undefined;
-  let elevenLabsVoiceId: string | undefined;
-
-  if (wantsVoice) {
-    if (existing.elevenLabsApiKey) {
-      const keepKey = await askYesNo(`Keep existing ElevenLabs API key (****${existing.elevenLabsApiKey.slice(-4)})?`, true);
-      elevenLabsApiKey = keepKey ? existing.elevenLabsApiKey : await ask("Enter your ElevenLabs API key: ");
-    } else {
-      elevenLabsApiKey = await ask("Enter your ElevenLabs API key: ");
-    }
-    elevenLabsVoiceId = await askWithDefault(
-      "Enter your preferred voice ID",
-      existing.elevenLabsVoiceId || "s3TPKV1kjDlVtZbl4Ksh"
-    );
-  }
-
   return {
     daName,
     timeZone,
     userName,
-    elevenLabsApiKey,
-    elevenLabsVoiceId,
   };
 }
 
@@ -587,7 +549,6 @@ async function main() {
     await $`mkdir -p ${claudeDir}/history/{sessions,learnings,research,decisions}`;
     await $`mkdir -p ${claudeDir}/hooks/lib`;
     await $`mkdir -p ${claudeDir}/tools`;
-    await $`mkdir -p ${claudeDir}/voice`;
 
     // Generate files
     console.log("Generating SKILL.md...");
@@ -609,8 +570,6 @@ async function main() {
 
 DA=${config.daName}
 TIME_ZONE=${config.timeZone}
-${config.elevenLabsApiKey ? `ELEVENLABS_API_KEY=${config.elevenLabsApiKey}` : "# ELEVENLABS_API_KEY="}
-${config.elevenLabsVoiceId ? `ELEVENLABS_VOICE_ID=${config.elevenLabsVoiceId}` : "# ELEVENLABS_VOICE_ID="}
 `;
     await Bun.write(`${claudeDir}/.env`, envFileContent);
 
@@ -625,13 +584,6 @@ ${config.elevenLabsVoiceId ? `ELEVENLABS_VOICE_ID=${config.elevenLabsVoiceId}` :
         PAI_SOURCE_APP: config.daName,
       },
     };
-    if (config.elevenLabsApiKey) {
-      (settingsJson.env as Record<string, string>).ELEVENLABS_API_KEY = config.elevenLabsApiKey;
-    }
-    if (config.elevenLabsVoiceId) {
-      (settingsJson.env as Record<string, string>).ELEVENLABS_VOICE_ID = config.elevenLabsVoiceId;
-    }
-
     // Check for existing settings.json and merge if present
     const settingsPath = `${claudeDir}/settings.json`;
     let existingSettings: Record<string, unknown> = {};
@@ -666,8 +618,6 @@ ${config.elevenLabsVoiceId ? `ELEVENLABS_VOICE_ID=${config.elevenLabsVoiceId}` :
 export DA="${config.daName}"
 export TIME_ZONE="${config.timeZone}"
 export PAI_SOURCE_APP="$DA"
-${config.elevenLabsApiKey ? `export ELEVENLABS_API_KEY="${config.elevenLabsApiKey}"` : ""}
-${config.elevenLabsVoiceId ? `export ELEVENLABS_VOICE_ID="${config.elevenLabsVoiceId}"` : ""}
 `;
 
     const existingProfile = await Bun.file(shellProfile).text().catch(() => "");
@@ -685,8 +635,6 @@ ${config.elevenLabsVoiceId ? `export ELEVENLABS_VOICE_ID="${config.elevenLabsVoi
       process.env.DA = config.daName;
       process.env.TIME_ZONE = config.timeZone;
       process.env.PAI_SOURCE_APP = config.daName;
-      if (config.elevenLabsApiKey) process.env.ELEVENLABS_API_KEY = config.elevenLabsApiKey;
-      if (config.elevenLabsVoiceId) process.env.ELEVENLABS_VOICE_ID = config.elevenLabsVoiceId;
       console.log("Environment variables set for current session.");
     } catch (e) {
       // Silently continue - environment is exported to file
@@ -703,7 +651,6 @@ Your PAI system has been updated:
   🤖 Assistant Name: ${config.daName}
   👤 User: ${config.userName}
   🌍 Timezone: ${config.timeZone}
-  🔊 Voice: ${config.elevenLabsApiKey ? "Enabled" : "Disabled"}
 
 Files updated:
   - ~/.claude/skills/CORE/SKILL.md
@@ -728,7 +675,6 @@ Your PAI system is configured:
   🤖 Assistant Name: ${config.daName}
   👤 User: ${config.userName}
   🌍 Timezone: ${config.timeZone}
-  🔊 Voice: ${config.elevenLabsApiKey ? "Enabled" : "Disabled"}
 
 Files created:
   - ~/.claude/skills/CORE/SKILL.md

@@ -51,11 +51,20 @@
  * - Skipped for subagents: Yes (they get context differently)
  */
 
-import { readFileSync, existsSync, readdirSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync, readdirSync } from 'fs';
 import { join } from 'path';
 import { spawn } from 'child_process';
 import { getPaiDir } from './lib/paths';
-import { recordSessionStart } from './lib/notifications';
+
+function recordSessionStart(): void {
+  try {
+    const paiDir = process.env.PAI_DIR || `${process.env.HOME}/.claude`;
+    const sessionFile = join(paiDir, 'MEMORY', 'STATE', 'session-start.txt');
+    writeFileSync(sessionFile, Date.now().toString());
+  } catch {
+    // Fail gracefully
+  }
+}
 
 async function getCurrentDate(): Promise<string> {
   try {
