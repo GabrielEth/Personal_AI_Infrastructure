@@ -53,10 +53,9 @@ Hook → sends to → Server → calls → API → plays → Audio
 | ❌ WRONG | ✅ RIGHT |
 |----------|----------|
 | "A full server implementation is beyond this pack's scope" | Include the complete server implementation |
-| "You can implement your own TTS provider" | Include the TTS integration code |
 | "See the skeleton pattern below" | Include production-ready code |
 | "Adapt to your preferred system" | Include the complete working system |
-| "The voice server is a required dependency" | Include the voice server |
+| "The required server is a dependency" | Include the server |
 
 ### The Chain Test
 
@@ -69,20 +68,18 @@ Before publishing, trace every data flow:
 
 **If ANY link says "you implement this" or "beyond scope" - the pack is INCOMPLETE.**
 
-### Example: Voice System
+### Example: Event Capture System
 
-A voice system pack MUST include:
+An event capture pack MUST include:
 
 | Component | What It Does | Included? |
 |-----------|--------------|-----------|
-| Stop hook | Extracts completion message | ✅ Required |
-| Prosody enhancer | Adds emotional markers | ✅ Required |
-| Voice server | HTTP server on port 8888 | ✅ Required |
-| ElevenLabs integration | Calls TTS API | ✅ Required |
-| Audio playback | Plays the audio | ✅ Required |
-| Server management | Start/stop/restart script | ✅ Required |
+| Event hook | Captures events from the agent | ✅ Required |
+| Storage layer | Writes events to disk or database | ✅ Required |
+| Query interface | CLI to search and filter events | ✅ Required |
+| Configuration | Settings for filtering and routing | ✅ Required |
 
-**NOT:** "The voice server is beyond scope." That makes the pack useless.
+**NOT:** "The storage layer is beyond scope." That makes the pack useless.
 
 ---
 

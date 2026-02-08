@@ -78,20 +78,18 @@ The Intern Agent is your high-agency genius generalist - perfect for parallel ex
 
 | User Says | What to Use | Why |
 |-------------|-------------|-----|
-| "**custom agents**", "spin up **custom** agents" | **AgentFactory** | Unique prompts, unique voices |
+| "**custom agents**", "spin up **custom** agents" | **AgentFactory** | Unique prompts, unique personalities |
 | "spin up agents", "bunch of agents", "launch agents" | **Intern agents** | Generic parallel workers |
 | "interns", "use interns" | **Intern agents** | Obviously |
 
 **When user says "custom agents":**
 1. Invoke the Agents skill → CreateCustomAgent workflow
-2. Use DIFFERENT trait combinations to get unique voices
+2. Use DIFFERENT trait combinations to get unique personalities
 3. Launch with the full AgentFactory-generated prompt
-4. Each agent gets a personality-matched ElevenLabs voice
 
 **When user says "spin up agents" (no "custom"):**
 1. Invoke the Agents skill → SpawnParallelAgents workflow
-2. All get the same Dev Patel voice (fine for grunt work)
-3. No AgentFactory needed
+2. No AgentFactory needed
 
 **Reference:** Agents skill (`~/.claude/skills/Agents/SKILL.md`)
 

@@ -149,6 +149,3 @@ cd ~/.claude/skills/THEALGORITHM/Tools && bun add yaml
 
 This is expected behavior when no ISC has been created. Run `create` first.
 
-### Voice notifications don't work
-
-Voice is optional. The algorithm works without it. Ensure the voice server is running at localhost:8888 if you want voice announcements.

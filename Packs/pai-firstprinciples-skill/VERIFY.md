@@ -170,7 +170,6 @@ Ask the AI:
 | Workflows not loading | Verify Workflows directory exists with all 3 files |
 | No output template | Re-copy files from pack `src/` directory |
 | Integration failing | Ensure CORE skill is properly installed |
-| Voice not working | Check pai-voice-system is running (optional) |
 
 ## Integration Verification
 

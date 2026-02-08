@@ -689,7 +689,6 @@ Next steps:
      - pai-hook-system.md
      - pai-memory-system.md
      - pai-core-install.md
-     - pai-voice-system.md (optional, requires ElevenLabs)
 
   2. Restart Claude Code to activate hooks
 

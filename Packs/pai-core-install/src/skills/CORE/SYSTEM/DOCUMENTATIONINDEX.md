@@ -23,7 +23,7 @@ extracted_from: SKILL.md lines 339-401
 
 **Skill Execution:**
 
-When a skill is invoked, follow the SKILL.md instructions step-by-step: execute voice notifications, use the routing table to find the workflow, and follow the workflow instructions in order.
+When a skill is invoked, follow the SKILL.md instructions step-by-step: use the routing table to find the workflow, and follow the workflow instructions in order.
 
 **🚨 MANDATORY USE WHEN FORMAT (Always Active):**
 
@@ -50,13 +50,12 @@ See `SYSTEM/SKILLSYSTEM.md` for complete documentation.
 - Testing standards → Development Skill
 
 **Agent System:**
-- **Agents Skill** (`~/.claude/skills/Agents/`) - Complete agent composition system | See Agents skill for custom agent creation, traits, and voice mappings
+- **Agents Skill** (`~/.claude/skills/Agents/`) - Complete agent composition system | See Agents skill for custom agent creation and traits
 - Delegation patterns are documented inline in the "Delegation & Parallelization" section below
 
 **Response & Communication:**
 - `SYSTEM/RESPONSEFORMAT.md` - Mandatory response format | Triggers: "output format", "response format"
 - `SYSTEM/THEFABRICSYSTEM.md` - Fabric patterns | Triggers: "fabric patterns", "prompt engineering"
-- Voice notifications → VoiceServer (system alerts, agent feedback)
 
 **Configuration & Systems:**
 - `SYSTEM/THEHOOKSYSTEM.md` - Hook configuration | Triggers: "hooks configuration", "create custom hooks"

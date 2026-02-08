@@ -35,7 +35,7 @@
 <!-- Content -->
 [![Get Started](https://img.shields.io/badge/🚀_Get_Started-Install-22C55E?style=flat)](#-installation)
 [![Release v2.5](https://img.shields.io/badge/📦_Release-v2.5-8B5CF6?style=flat)](Releases/v2.5/)
-[![Packs](https://img.shields.io/badge/📦_Packs-23-8B5CF6?style=flat)](Packs/)
+[![Packs](https://img.shields.io/badge/📦_Packs-12-8B5CF6?style=flat)](Packs/)
 [![Bundles](https://img.shields.io/badge/🎁_Bundles-1-F97316?style=flat)](Bundles/)
 [![Contributors](https://img.shields.io/github/contributors/danielmiessler/PAI?style=flat&logo=githubsponsors&logoColor=white&label=Contributors&color=EC4899)](https://github.com/danielmiessler/PAI/graphs/contributors)
 
@@ -195,7 +195,7 @@ These principles guide how PAI systems are designed and built. **[Full breakdown
 | 11 | **Goal → Code → CLI → Prompts → Agents** | The decision hierarchy: clarify goal, then code, then CLI, then prompts, then agents. |
 | 12 | **Skill Management** | Modular capabilities that route intelligently based on context. |
 | 13 | **Memory System** | Everything worth knowing gets captured. History feeds future context. |
-| 14 | **Agent Personalities** | Different work needs different approaches. Specialized agents with unique voices. |
+| 14 | **Agent Personalities** | Different work needs different approaches. Specialized agents with unique personalities. |
 | 15 | **Science as Meta-Loop** | Hypothesis → Experiment → Measure → Iterate. |
 | 16 | **Permission to Fail** | Explicit permission to say "I don't know" prevents hallucinations. |
 
@@ -249,7 +249,7 @@ Your customizations live in USER/. PAI infrastructure lives in SYSTEM/. When PAI
 
 ### Granular Customization
 
-Six layers of customization: Identity (name, voice, personality), Preferences (tech stack, tools), Workflows (how skills execute), Skills (what capabilities exist), Hooks (how events are handled), and Memory (what gets captured). Start with defaults, customize when needed.
+Six layers of customization: Identity (name, personality), Preferences (tech stack, tools), Workflows (how skills execute), Skills (what capabilities exist), Hooks (how events are handled), and Memory (what gets captured). Start with defaults, customize when needed.
 
 ---
 
@@ -279,7 +279,7 @@ Focused on continuous learning. Every interaction generates signals—ratings, s
 
 ### Hook System
 
-Responds to lifecycle events—session start, tool use, task completion, and more. 8 event types enable voice notifications, automatic context loading, session capture, security validation, and observability.
+Responds to lifecycle events—session start, tool use, task completion, and more. 8 event types enable automatic context loading, session capture, security validation, and observability.
 
 ---
 
@@ -310,16 +310,6 @@ Your AI assistant reads the packs, understands your system, and installs everyth
 ### Notification System
 
 Keeps you informed without being intrusive. Push notifications via ntfy for mobile alerts, Discord integration for team updates, and duration-aware routing that escalates for long-running tasks. Fire-and-forget design means notifications never block your workflow.
-
----
-
-<p align="center">
-  <img src="./images/pai-component-9-voice-system.png" alt="Voice System" width="700">
-</p>
-
-### Voice System
-
-Powered by ElevenLabs TTS. Hear task completions, session summaries, and important updates spoken aloud. Prosody enhancement makes speech sound natural. Your AI has a voice.
 
 ---
 
@@ -381,7 +371,6 @@ cd ~/.claude && bun run INSTALL.ts
 **The wizard will:**
 - Ask for your name, DA name, and timezone
 - Configure environment variables (works with both bash and zsh)
-- Set up voice preferences (optional)
 - Verify the installation
 
 **After installation:** Restart Claude Code to activate hooks.
@@ -412,8 +401,7 @@ bun run install.ts
 |-------|------|---------|
 | 1 | pai-hook-system | "Install the pack at PAI/Packs/pai-hook-system/" |
 | 2 | pai-core-install | "Install the pack at PAI/Packs/pai-core-install/" |
-| 3 | pai-statusline | "Install the pack at PAI/Packs/pai-statusline/" |
-| 4+ | Any skill packs | Install as needed |
+| 3+ | Any skill packs | Install as needed |
 
 [**Bundle documentation →**](Bundles/Official/README.md)
 
@@ -456,9 +444,6 @@ Each pack includes everything needed: code, workflows, installation instructions
 |------|-------------|
 | [**pai-core-install**](Packs/pai-core-install/) | Core skills, identity, MEMORY system, and response format |
 | [**pai-hook-system**](Packs/pai-hook-system/) | Event-driven automation and security validation |
-| [**pai-voice-system**](Packs/pai-voice-system/) | Voice notifications with ElevenLabs TTS |
-| [**pai-observability-server**](Packs/pai-observability-server/) | Real-time agent monitoring dashboard |
-| [**pai-statusline**](Packs/pai-statusline/) | 4-mode responsive status line with learning signals |
 
 ### Skill Packs
 
@@ -466,24 +451,16 @@ Each pack includes everything needed: code, workflows, installation instructions
 |------|-------------|
 | [**pai-agents-skill**](Packs/pai-agents-skill/) | Dynamic agent composition with personality mapping |
 | [**pai-algorithm-skill**](Packs/pai-algorithm-skill/) | ISC management, effort classification |
-| [**pai-annualreports-skill**](Packs/pai-annualreports-skill/) | Annual security report aggregation |
-| [**pai-art-skill**](Packs/pai-art-skill/) | Visual content generation |
-| [**pai-brightdata-skill**](Packs/pai-brightdata-skill/) | Progressive URL scraping |
-| [**pai-browser-skill**](Packs/pai-browser-skill/) | Browser automation with Playwright |
 | [**pai-council-skill**](Packs/pai-council-skill/) | Multi-agent debate system |
 | [**pai-createcli-skill**](Packs/pai-createcli-skill/) | Generate TypeScript CLI tools |
 | [**pai-createskill-skill**](Packs/pai-createskill-skill/) | Create and validate PAI skills |
 | [**pai-firstprinciples-skill**](Packs/pai-firstprinciples-skill/) | First principles analysis |
-| [**pai-osint-skill**](Packs/pai-osint-skill/) | Open source intelligence gathering |
-| [**pai-privateinvestigator-skill**](Packs/pai-privateinvestigator-skill/) | Ethical people-finding |
 | [**pai-prompting-skill**](Packs/pai-prompting-skill/) | Meta-prompting system |
-| [**pai-recon-skill**](Packs/pai-recon-skill/) | Security reconnaissance |
 | [**pai-redteam-skill**](Packs/pai-redteam-skill/) | Adversarial analysis with 32 agents |
 | [**pai-research-skill**](Packs/pai-research-skill/) | Multi-source research |
 | [**pai-system-skill**](Packs/pai-system-skill/) | System maintenance and integrity checks |
-| [**pai-telos-skill**](Packs/pai-telos-skill/) | Life OS and deep goal capture |
 
-> **23 packs total** — 5 infrastructure + 18 skills. All extracted from production PAI systems.
+> **12 packs total** — 2 infrastructure + 10 skills. All extracted from production PAI systems.
 
 ---
 
@@ -570,7 +547,6 @@ The modular design makes recovery easy:
 | **Local Model Support** | Run PAI with local models (Ollama, llama.cpp) for privacy and cost control |
 | **Granular Model Routing** | Route different tasks to different models based on complexity |
 | **Remote Access** | Access your PAI from anywhere—mobile, web, other devices |
-| **Outbound Phone Calling** | Voice capabilities for outbound calls |
 | **External Notifications** | Robust notification system for Email, Discord, Telegram, Slack |
 
 ---
@@ -626,8 +602,6 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ### Contributors
 
-**[fayerman-source](https://github.com/fayerman-source)** — Google Cloud TTS provider integration and Linux audio support for the voice system.
-
 **Matt Espinoza** — Extensive testing, ideas, and feedback for the PAI 2.3 release, plus roadmap contributions.
 
 ---
@@ -661,7 +635,7 @@ MIT License - see [LICENSE](LICENSE) for details.
 - Two-Pass Capability Selection: Hook hints validated against ISC in THINK phase
 - Thinking Tools with Justify-Exclusion: Opt-OUT, not opt-IN for Council, RedTeam, FirstPrinciples, etc.
 - Parallel-by-Default Execution: Independent tasks run concurrently via parallel agent spawning
-- 28 skills, 17 hooks, 356 workflows
+- 12 packs, 17 hooks
 - [Release Notes](Releases/v2.5/README.md)
 
 **v2.4.0 (2026-01-23) — The Algorithm**

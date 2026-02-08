@@ -6,15 +6,6 @@
 
 ---
 
-## Voice Notification
-
-```bash
-curl -s -X POST http://localhost:8888/notify \
-  -H "Content-Type: application/json" \
-  -d '{"message": "Running privacy check for sensitive data leakage"}' \
-  > /dev/null 2>&1 &
-```
-
 Running the **PrivacyCheck** workflow from the **System** skill...
 
 ---
@@ -181,15 +172,6 @@ If ANY sensitive data is found outside protected directories:
 5. **Re-run** until all checks pass
 
 ---
-
-## Completion Notification
-
-```bash
-curl -s -X POST http://localhost:8888/notify \
-  -H "Content-Type: application/json" \
-  -d '{"message": "Privacy check complete. [STATUS]"}' \
-  > /dev/null 2>&1 &
-```
 
 ---
 

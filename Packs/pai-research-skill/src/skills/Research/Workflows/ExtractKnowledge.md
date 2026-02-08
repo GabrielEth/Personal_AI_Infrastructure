@@ -27,11 +27,7 @@ fabric --youtube "<url>"
 ```
 
 **Web URLs** (http/https):
-```bash
-fabric -u "<url>"
-# If that fails, use Bright Data MCP
-mcp__brightdata__scrape_as_markdown url="<url>"
-```
+Use WebFetch tool to retrieve page content. If that fails, try WebSearch for cached versions.
 
 **PDFs and Files**:
 Read the file directly using the Read tool

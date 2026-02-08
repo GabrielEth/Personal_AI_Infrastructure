@@ -106,7 +106,7 @@ Manual maintenance doesn't scale. As your PAI system grows, the overhead of keep
 
 ## The Solution
 
-The System skill solves this through **structured workflows with voice notifications**. Each maintenance operation is codified as a workflow that can be triggered by natural language and executed consistently.
+The System skill solves this through **structured workflows**. Each maintenance operation is codified as a workflow that can be triggered by natural language and executed consistently.
 
 **Four Core Operations:**
 
@@ -127,7 +127,7 @@ The System skill solves this through **structured workflows with voice notificat
 
 **Design Principles:**
 
-1. **Voice Notifications**: Every workflow announces itself so Daniel knows what's happening
+1. **Text Notifications**: Every workflow announces itself so the user knows what's happening
 2. **Fail-Safe**: Security checks block dangerous actions
 3. **Composable**: Workflows chain together (IntegrityCheck -> DocumentSession -> GitPush)
 4. **Automated Where Possible**: Tools regenerate indexes and create entries
@@ -335,7 +335,6 @@ System: Invokes WorkContextRecall workflow
 
 - **pai-hook-system** - Event-driven automation
 - **pai-core-install** - Skill system foundation
-- **pai-voice-system** - Voice notifications for workflow progress
 
 ---
 

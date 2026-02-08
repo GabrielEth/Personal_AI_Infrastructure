@@ -218,11 +218,10 @@ Every session, every insight, every decision—captured automatically:
 
 **Key Takeaway:** Memory makes intelligence compound. Without memory, every session starts from zero.
 
-### 14. Custom Agent Personalities / Voices
+### 14. Custom Agent Personalities
 
 **Specialized agents with distinct personalities for different tasks.**
 
-- **Voice Identity:** Each agent has unique voice
 - **Personality Calibration:** Humor, precision, directness levels
 - **Specialization:** Security, design, research, engineering
 - **Autonomy Levels:** From simple interns to senior architects
@@ -337,12 +336,12 @@ Located in `settings.json`:
 
 ### Hybrid Model
 
-- **Named Agents:** Persistent identities with backstories and fixed voice mappings
+- **Named Agents:** Persistent identities with backstories
 - **Dynamic Agents:** Task-specific compositions from traits via AgentFactory
 
 ### Delegation Patterns
 
-- Custom agents → AgentFactory with unique voices
+- Custom agents → AgentFactory with unique personalities
 - Generic parallel work → Intern agents
 - Spotcheck pattern → Verify parallel work with additional agent
 
@@ -386,7 +385,6 @@ YYYY-MM-DD-HHMMSS_[TYPE]_[description].md
 
 | Channel | Purpose |
 |---------|---------|
-| Voice | Primary TTS feedback |
 | Push (ntfy) | Mobile notifications |
 | Discord | Team/server alerts |
 | Desktop | Native notifications |
@@ -446,7 +444,7 @@ The System skill is the centralized mechanism for PAI self-management. It ensure
 
 ### Foreground Execution
 
-The System skill runs in the foreground so you can see all output, progress, and hear voice notifications as work happens. Documentation updates, integrity checks, and system operations are visible for transparency.
+The System skill runs in the foreground so you can see all output and progress as work happens. Documentation updates, integrity checks, and system operations are visible for transparency.
 
 ### When to Use
 

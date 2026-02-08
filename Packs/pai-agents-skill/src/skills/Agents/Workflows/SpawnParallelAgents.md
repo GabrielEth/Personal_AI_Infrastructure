@@ -10,7 +10,7 @@
 - "Create agents to analyze these files" (no "custom")
 - "Use interns to check these URLs"
 
-**KEY: No "custom" keyword = generic Intern agents (same voice, fast parallel execution)**
+**KEY: No "custom" keyword = generic Intern agents (same config, fast parallel execution)**
 
 ## The Workflow
 
@@ -327,21 +327,10 @@ Task({ ..., model: "haiku" })
 Task({ ..., model: "haiku" })
 ```
 
-## Voice Output
-
-All generic Intern agents use the same voice:
-- **Dev Patel** (d3MFdIuCfbAIwiu7jC4a)
-- High-energy genius generalist
-- 270 wpm speaking rate
-- Enthusiastic and eager
-
-This is intentional - for parallel grunt work, we don't need personality diversity. That's what custom agents are for.
-
 ## When to Use Custom Agents Instead
 
 Use **CreateCustomAgent workflow** when:
 - You need distinct personalities/perspectives
-- Voice diversity matters (presenting results)
 - Different analytical approaches required
 - Each agent brings unique expertise
 
@@ -349,11 +338,11 @@ Use **SpawnParallelAgents workflow** when:
 - Simple parallel processing
 - Same task, different inputs
 - Speed matters more than personality
-- Voice diversity not needed
+- Personality diversity not needed
 
 ## Related Workflows
 
-- **CreateCustomAgent** - For agents with unique personalities/voices
+- **CreateCustomAgent** - For agents with unique personalities
 - **ListTraits** - Show available traits for custom agents
 
 ## References

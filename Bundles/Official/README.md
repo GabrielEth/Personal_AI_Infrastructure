@@ -56,7 +56,6 @@ AI agents systematically create "simplified" versions of pack implementations. I
 - [ ] pai-hook-system - FULLY installed, verified
 - [ ] pai-history-system - FULLY installed, verified
 - [ ] pai-core-install - FULLY installed, verified
-- [ ] pai-voice-system - FULLY installed, verified (if applicable)
 
 ### Integration Status
 - [ ] ~/.claude directory structure correct
@@ -92,7 +91,7 @@ The wizard will:
 2. **Show you what it found** and explain what will be backed up
 3. **Ask for your confirmation** before making any changes
 4. **Create a safety backup** of your existing `~/.claude` directory to `~/.claude-BACKUP`
-5. **Ask a few questions** (your name, AI name, timezone, voice preference)
+5. **Ask a few questions** (your name, AI name, timezone)
 6. **Install directly to `~/.claude`** - the standard Claude Code location
 7. **Configure environment variables** automatically
 
@@ -125,7 +124,6 @@ When fully installed (wizard + all required packs), the PAI bundle gives you:
 - A custom **History system** - Automatically captures sessions, decisions, learnings, and research
 - A custom set of **Hooks** - Event-driven automation that triggers on session start, tool use, and task completion
 - A custom **Skill system** - Modular capabilities that route based on intent
-- A custom **Voice notification system** - Spoken updates via ElevenLabs when tasks complete (optional)
 - A custom **Agent swarm creation system** - Spawn parallel agents with personality templates
 - A custom **Security control system** - Protection against prompt injection and dangerous operations
 
@@ -145,38 +143,22 @@ When fully installed (wizard + all required packs), the PAI bundle gives you:
 | 1 | [pai-hook-system](../../Packs/pai-hook-system/) | Event-driven automation | None |
 | 2 | [pai-core-install](../../Packs/pai-core-install/) | Skills + Identity + MEMORY system | Hooks |
 
-### Infrastructure Packs
-
-| # | Pack | Purpose | Dependencies |
-|---|------|---------|--------------|
-| 3 | [pai-statusline](../../Packs/pai-statusline/) | 4-mode responsive status line | Core |
-| 4 | [pai-voice-system](../../Packs/pai-voice-system/) | Voice notifications | Hooks, Core |
-| 5 | [pai-observability-server](../../Packs/pai-observability-server/) | Multi-agent monitoring | Hooks |
-
 ### Skill Packs (install any you need)
 
 | Pack | Purpose |
 |------|---------|
 | [pai-agents-skill](../../Packs/pai-agents-skill/) | Dynamic agent composition |
 | [pai-algorithm-skill](../../Packs/pai-algorithm-skill/) | The Algorithm - verifiable iteration |
-| [pai-annualreports-skill](../../Packs/pai-annualreports-skill/) | Security report analysis |
-| [pai-art-skill](../../Packs/pai-art-skill/) | Visual content generation |
-| [pai-brightdata-skill](../../Packs/pai-brightdata-skill/) | Progressive web scraping |
-| [pai-browser-skill](../../Packs/pai-browser-skill/) | Browser automation |
 | [pai-council-skill](../../Packs/pai-council-skill/) | Multi-agent debate |
 | [pai-createcli-skill](../../Packs/pai-createcli-skill/) | CLI tool generation |
 | [pai-createskill-skill](../../Packs/pai-createskill-skill/) | Skill creation |
 | [pai-firstprinciples-skill](../../Packs/pai-firstprinciples-skill/) | First principles analysis |
-| [pai-osint-skill](../../Packs/pai-osint-skill/) | Open source intelligence |
-| [pai-privateinvestigator-skill](../../Packs/pai-privateinvestigator-skill/) | Ethical people-finding |
 | [pai-prompting-skill](../../Packs/pai-prompting-skill/) | Meta-prompting system |
-| [pai-recon-skill](../../Packs/pai-recon-skill/) | Security reconnaissance |
 | [pai-redteam-skill](../../Packs/pai-redteam-skill/) | Adversarial analysis |
 | [pai-research-skill](../../Packs/pai-research-skill/) | Multi-source research |
 | [pai-system-skill](../../Packs/pai-system-skill/) | System maintenance |
-| [pai-telos-skill](../../Packs/pai-telos-skill/) | Life OS and goals |
 
-> **Alternative:** Use a [Full Release](../../Releases/v2.4/) which includes all 23 packs pre-configured in a complete `.claude/` directory.
+> **Alternative:** Use a [Full Release](../../Releases/v2.4/) which includes all 12 packs pre-configured in a complete `.claude/` directory.
 
 ### How to Install Packs
 
@@ -199,7 +181,6 @@ The AI will:
 - **Hooks** are the foundation - they enable all event-driven automation
 - **History** uses hooks to capture events and context
 - **Core Install** provides skill routing and identity framework
-- **Voice** uses hooks for completion events (requires ElevenLabs API key)
 
 ---
 
@@ -223,7 +204,6 @@ ls -la ~/.claude/
 # history/     - Sessions, Learnings, Research, Decisions
 # skills/      - CORE and other skills
 # tools/       - CLI utilities
-# voice/       - Voice server files (if installed)
 
 # Check hooks are registered
 cat ~/.claude/settings.json | grep -A 5 "hooks"
@@ -257,7 +237,7 @@ mv ~/.claude-BACKUP ~/.claude
 
 For example, `pai-hook-system` provides an entire event-driven automation framework with all code files ready to copy.
 
-**Bundles** are curated combinations of packs designed to work together. The Official PAI Bundle is 10 packs that form a complete AI infrastructure (4 required + 6 optional).
+**Bundles** are curated combinations of packs designed to work together. The Official PAI Bundle is 12 packs that form a complete AI infrastructure (2 required + 10 optional).
 
 ---
 
@@ -286,24 +266,21 @@ The PAI system embeds these principles from [Personal AI Infrastructure](https:/
 
 ### 2.4.0 - 2026-01-23
 - **The Algorithm:** 7-phase problem-solving with ISC tracking for verifiable iteration
-- **29 Skills:** Up from 23, expanded domain coverage
+- **12 Packs:** Streamlined pack collection
 - **15 Hooks:** Refined hook architecture
 - **331 Workflows:** Comprehensive automation library
 - **Improved Wizard:** Renamed to PAIInstallWizard.ts, better interactive setup
-- **Voice Notifications:** ElevenLabs integration for spoken alerts
-- **Observability Dashboard:** Real-time system monitoring
 
 ### 2.3.0 - 2026-01-15
 - **Full Releases Return:** Added Releases/v2.3/ with complete .claude directory
 - **23 Packs Total:** 5 infrastructure + 18 skill packs
 - **Continuous Learning:** Sentiment capture, rating system, learning extraction
-- **New Packs:** Added pai-statusline, pai-annualreports-skill, pai-brightdata-skill, pai-council-skill, pai-createcli-skill, pai-createskill-skill, pai-firstprinciples-skill, pai-osint-skill, pai-privateinvestigator-skill, pai-recon-skill, pai-redteam-skill, pai-research-skill, pai-system-skill, pai-telos-skill
+- **New Packs:** Added pai-council-skill, pai-createcli-skill, pai-createskill-skill, pai-firstprinciples-skill, pai-redteam-skill, pai-research-skill, pai-system-skill
 - **History Retired:** MEMORY system in pai-core-install replaces standalone history pack
 
 ### 2.1.0 - 2026-01-08
 - **Rebranded to PAI:** All packs renamed from pai-* to pai-* for consistency with project name
 - **New Pack:** Added pai-upgrades-skill for tracking Anthropic ecosystem updates
-- **New Pack:** Added pai-browser-skill for web automation and verification
 - **Bundle renamed:** "Kai Bundle" -> "Official PAI Bundle"
 - **Origin preserved:** Bundle documentation notes extraction from Daniel Miessler's Kai system
 
@@ -311,7 +288,7 @@ The PAI system embeds these principles from [Personal AI Infrastructure](https:/
 - **Directory-based Packs:** All packs migrated from single markdown files to directory structure
 - **New Pack Format:** Each pack now contains README.md, INSTALL.md, VERIFY.md, and src/ directory
 - **Actual Code Files:** Source code now in real .ts, .yaml, .hbs files (not embedded in markdown)
-- **Four New Packs:** Added pai-prompting-skill, pai-agents-skill, pai-art-skill, pai-observability-server
+- **Two New Packs:** Added pai-prompting-skill, pai-agents-skill
 - **Improved Installation:** AI agents copy actual files instead of extracting from markdown blocks
 
 ### 1.2.0 - 2025-12-30
@@ -324,7 +301,7 @@ The PAI system embeds these principles from [Personal AI Infrastructure](https:/
 - Now installs directly to `~/.claude` instead of configurable `$PAI_DIR`
 - Automatic backup to `~/.claude-BACKUP` before installation
 - Environment variables set automatically (no manual shell sourcing needed)
-- Simplified: Removed personality calibration questions - just name, timezone, voice
+- Simplified: Removed personality calibration questions - just name, timezone
 - Simplified: Removed technical preference questions - use sensible defaults
 - Simplified: Removed "open another terminal" instructions
 

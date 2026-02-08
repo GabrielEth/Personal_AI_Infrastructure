@@ -58,17 +58,6 @@ bun ~/.claude/skills/System/Tools/UpdateIndex.ts validate
 # Expected: "Index is up to date!" or list of discrepancies
 ```
 
-### Test 4: Voice Notification
-
-```bash
-# Test notification server connection
-curl -s -X POST http://localhost:8888/notify \
-  -H "Content-Type: application/json" \
-  -d '{"message": "System skill verification complete"}'
-
-# Expected: HTTP 200 (or connection refused if server not running)
-```
-
 ## Workflow Validation
 
 ### IntegrityCheck Workflow
@@ -77,7 +66,7 @@ curl -s -X POST http://localhost:8888/notify \
 User: "Run an integrity check"
 
 Expected behavior:
-1. Voice notification plays
+1. Text notification displayed
 2. Parallel agents spawn to audit system
 3. Report generated with issues found
 4. Optional: Issues auto-fixed
@@ -89,7 +78,7 @@ Expected behavior:
 User: "Document this session"
 
 Expected behavior:
-1. Voice notification plays
+1. Text notification displayed
 2. Session analyzed for changes
 3. Update entry created in PAISYSTEMUPDATES
 4. Automatically calls GitPush
@@ -101,7 +90,7 @@ Expected behavior:
 User: "Git Push"
 
 Expected behavior:
-1. Voice notification plays
+1. Text notification displayed
 2. Verifies correct directory (must be ~/.claude)
 3. Verifies correct remote (must be .claude.git)
 4. git add, commit, push executed
@@ -113,7 +102,7 @@ Expected behavior:
 User: "Check for secrets in ~/.claude"
 
 Expected behavior:
-1. Voice notification plays
+1. Text notification displayed
 2. TruffleHog scan runs
 3. Report shows findings (if any)
 ```
@@ -169,11 +158,6 @@ Expected behavior:
 **Cause:** Wrong directory or remote detected
 **Fix:** Navigate to ~/.claude and verify `git remote -v`
 
-### Issue: Voice notification fails
-
-**Cause:** VoiceServer not running
-**Fix:** Start with `bun ~/.claude/VoiceServer/server.ts`
-
 ## Success Criteria
 
 Installation is verified when:
@@ -184,7 +168,6 @@ Installation is verified when:
 4. SKILL.md contains proper routing table
 5. CreateUpdate.ts successfully creates entries
 6. UpdateSearch.ts can query the index
-7. Voice notifications work (if server running)
 
 ## Cleanup Test Entries
 

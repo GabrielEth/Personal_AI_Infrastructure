@@ -1,6 +1,6 @@
 ---
 name: Agents
-description: Dynamic agent composition and management system. USE WHEN user says create custom agents, spin up custom agents, specialized agents, OR asks for agent personalities, available traits, agent voices. Handles custom agent creation, personality assignment, voice mapping, and parallel agent orchestration.
+description: Dynamic agent composition and management system. USE WHEN user says create custom agents, spin up custom agents, specialized agents, OR asks for agent personalities, available traits. Handles custom agent creation, personality assignment, and parallel agent orchestration.
 ---
 
 # Agents - Custom Agent Composition System
@@ -14,7 +14,6 @@ description: Dynamic agent composition and management system. USE WHEN user says
 
 If this directory exists, load and apply:
 - `PREFERENCES.md` - Named agent roster summary
-- `VoiceConfig.json` - Voice server configuration with ElevenLabs voice IDs
 - `NamedAgents.md` - Full agent backstories and character definitions (optional)
 
 These define user-specific named agents with persistent identities. If the directory does not exist, use only dynamic agent composition from traits.
@@ -23,29 +22,10 @@ These define user-specific named agents with persistent identities. If the direc
 
 The Agents skill is a complete agent composition and management system. It consolidates all agent-related infrastructure:
 - Dynamic agent composition from traits (expertise + personality + approach)
-- Personality definitions and voice mappings
-- Custom agent creation with unique voices
+- Personality definitions and trait compositions
+- Custom agent creation with unique personalities
 - Parallel agent orchestration patterns
 
-
-## Voice Notification
-
-**When executing a workflow, do BOTH:**
-
-1. **Send voice notification**:
-   ```bash
-   curl -s -X POST http://localhost:8888/notify \
-     -H "Content-Type: application/json" \
-     -d '{"message": "Running the WORKFLOWNAME workflow from the Agents skill"}' \
-     > /dev/null 2>&1 &
-   ```
-
-2. **Output text notification**:
-   ```
-   Running the **WorkflowName** workflow from the **Agents** skill...
-   ```
-
-**Full documentation:** `~/.claude/skills/CORE/SkillNotifications.md`
 
 ## Workflow Routing
 
@@ -61,7 +41,7 @@ The Agents skill is a complete agent composition and management system. It conso
 User: "Spin up 5 custom science agents to analyze this data"
 → Invokes CREATECUSTOMAGENT workflow
 → Runs AgentFactory 5 times with DIFFERENT trait combinations
-→ Each agent gets unique personality + matched voice
+→ Each agent gets unique personality + matched configuration
 → Launches agents in parallel with model: "sonnet"
 ```
 
@@ -78,7 +58,7 @@ User: "What agent personalities can you create?"
 ```
 User: "Launch 10 agents to research these companies"
 → Invokes SPAWNPARALLEL workflow
-→ Creates 10 Intern agents (generic, same voice)
+→ Creates 10 Intern agents (generic, parallel execution)
 → Uses model: "haiku" for speed
 → Launches spotcheck agent after completion
 ```
@@ -91,7 +71,7 @@ The system uses two types of agents:
 
 | Type | Definition | Best For |
 |------|------------|----------|
-| **Named Agents** | Persistent identities with backstories (Remy, Ava, Marcus) | Recurring work, voice output, relationships |
+| **Named Agents** | Persistent identities with backstories (Remy, Ava, Marcus) | Recurring work, relationships |
 | **Dynamic Agents** | Task-specific specialists composed from traits | One-off tasks, novel combinations, parallel work |
 
 ### The Agent Spectrum
@@ -113,8 +93,8 @@ The system uses two types of agents:
 
 | User Says | What to Use | Why |
 |-----------|-------------|-----|
-| "**custom agents**", "create **custom** agents" | AgentFactory | Unique prompts + unique voices |
-| "agents", "launch agents", "bunch of agents" | Generic Interns | Same voice, parallel grunt work |
+| "**custom agents**", "create **custom** agents" | AgentFactory | Unique prompts + unique personalities |
+| "agents", "launch agents", "bunch of agents" | Generic Interns | Same config, parallel grunt work |
 | "use Remy", "get Ava to" | Named agent | Pre-defined personality |
 
 **Other triggers:**
@@ -130,14 +110,13 @@ The system uses two types of agents:
 - Expertise areas: security, legal, finance, medical, technical, research, creative, business, data, communications
 - Personality dimensions: skeptical, enthusiastic, cautious, bold, analytical, creative, empathetic, contrarian, pragmatic, meticulous
 - Approach styles: thorough, rapid, systematic, exploratory, comparative, synthesizing, adversarial, consultative
-- Voice mappings: Trait combinations → ElevenLabs voices
-- Voice registry: 45+ voices with characteristics
+- Trait composition patterns
 
 ### Templates
 
 **DynamicAgent.hbs** (`Templates/DynamicAgent.hbs`)
 - Handlebars template for dynamic agent prompts
-- Composes: expertise + personality + approach + voice assignment
+- Composes: expertise + personality + approach
 - Includes operational guidelines and response format
 
 ### Tools
@@ -145,7 +124,6 @@ The system uses two types of agents:
 **AgentFactory.ts** (`Tools/AgentFactory.ts`)
 - Dynamic agent composition engine
 - Infers traits from task description
-- Maps trait combinations to appropriate voices
 - Outputs complete agent prompt ready for Task tool
 
 ```bash
@@ -159,9 +137,8 @@ bun run ~/.claude/skills/Agents/Tools/AgentFactory.ts --list
 
 **AgentPersonalities.md** (`AgentPersonalities.md`)
 - Named agent definitions with full backstories
-- Voice settings and personality traits
-- Character development and communication styles
-- JSON configuration for voice server
+- Personality traits and character development
+- Communication styles
 
 **Named Agents:**
 - Jamie - Expressive eager buddy
@@ -177,11 +154,6 @@ bun run ~/.claude/skills/Agents/Tools/AgentFactory.ts --list
 - Emma Hartley (Writer) - Technical storyteller
 
 ## Integration Points
-
-**Voice Server** (`~/.claude/VoiceServer/`)
-- Reads agent personality configuration from AgentPersonalities.md
-- Maps agent names to ElevenLabs voice IDs
-- Delivers personality-driven voice notifications
 
 **CORE Skill** (`~/.claude/skills/CORE/`)
 - References Agents skill for custom agent creation
@@ -203,9 +175,9 @@ Users talk naturally:
 When user says "custom agents", the assistant:
 1. Invokes CREATECUSTOMAGENT workflow
 2. Runs AgentFactory for EACH agent with DIFFERENT trait combinations
-3. Gets unique prompt + voice ID for each
+3. Gets unique prompt for each
 4. Launches agents using Task tool with the composed prompt
-5. Each agent has a distinct personality-matched voice
+5. Each agent has a distinct personality
 
 Example internal execution:
 ```bash
@@ -213,15 +185,15 @@ Example internal execution:
 
 # Agent 1
 bun run AgentFactory.ts --traits "research,enthusiastic,exploratory"
-# Output: Prompt with voice "Jeremy" (energetic)
+# Output: Prompt with energetic personality
 
 # Agent 2
 bun run AgentFactory.ts --traits "research,skeptical,thorough"
-# Output: Prompt with voice "George" (intellectual)
+# Output: Prompt with intellectual personality
 
 # Agent 3
 bun run AgentFactory.ts --traits "research,analytical,systematic"
-# Output: Prompt with voice "Drew" (professional)
+# Output: Prompt with professional personality
 
 # Launch all 3 with Task tool
 Task({ prompt: <agent1_prompt>, subagent_type: "Intern", model: "sonnet" })
@@ -244,7 +216,6 @@ Always specify the appropriate model:
 ## Related Skills
 
 - **CORE** - Main system identity and delegation patterns
-- **VoiceNarration** - Voice output for content (separate from agent notifications)
 - **Development** - Uses Engineer and Architect agents
 
 ## Version History

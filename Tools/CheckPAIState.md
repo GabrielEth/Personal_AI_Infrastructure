@@ -116,42 +116,7 @@ cat ~/.claude/settings.json | grep -A 5 '"skills"' 2>/dev/null
 
 ---
 
-### Step 5: Check Voice System (Optional)
-
-```bash
-# Check if voice server is running
-curl -s http://localhost:8888/health 2>/dev/null || echo "Voice server not running"
-
-# Check for voice configuration
-ls -la $PAI_DIR/voice-server/ 2>/dev/null
-```
-
-**Health indicators:**
-- ✅ Voice server responds on port 8888
-- ✅ ElevenLabs API key configured
-- ⚪ Not running = Optional, install if you want voice notifications
-
----
-
-### Step 6: Check Observability Server (Optional)
-
-```bash
-# Check if observability is running
-curl -s http://localhost:4000/health 2>/dev/null || echo "Observability server not running"
-curl -s http://localhost:5172 2>/dev/null || echo "Observability dashboard not running"
-
-# Check for observability installation
-ls -la $PAI_DIR/observability/ 2>/dev/null
-```
-
-**Health indicators:**
-- ✅ Server responds on port 4000
-- ✅ Dashboard accessible on port 5172
-- ⚪ Not running = Optional, install if you want agent monitoring
-
----
-
-### Step 7: Check Identity Configuration (Optional)
+### Step 5: Check Identity Configuration (Optional)
 
 ```bash
 # Check for identity/personality configuration
@@ -176,9 +141,7 @@ cat $PAI_DIR/skills/CORE/SKILL.md 2>/dev/null | head -50
 | pai-hook-system | 1.0.0 | Event-driven automation foundation | ⬜ Check |
 | pai-history-system | 1.0.0 | Automatic context capture and organization | ⬜ Check |
 | pai-skill-system | 1.0.0 | Capability routing and dynamic loading | ⬜ Check |
-| pai-voice-system | 1.1.0 | Voice notifications with ElevenLabs TTS | ⬜ Check |
 | pai-identity | 1.0.0 | Personality, response format, principles | ⬜ Check |
-| pai-observability-server | 1.0.0 | Real-time multi-agent monitoring | ⬜ Check |
 
 **Status key:**
 - ✅ Installed and working
@@ -200,8 +163,6 @@ PAI Health Report
 Hook System:        ✅ Working
 History System:     ✅ Working
 Skill System:       ⚠️ 3 skills found, but routing not configured
-Voice System:       ❌ Not installed
-Observability:      ❌ Not installed
 Identity:           ⚪ Using defaults
 ```
 
@@ -235,24 +196,19 @@ Recommend ONE pack to install next based on:
 PAI State Check Complete
 ========================
 
-INSTALLED (4 packs):
+INSTALLED (3 packs):
   ✅ pai-hook-system v1.0.0 - Working
   ✅ pai-history-system v1.0.0 - Working
   ✅ pai-skill-system v1.0.0 - Working
-  ⚠️ pai-voice-system v1.0.0 - Installed but ElevenLabs key missing
 
-NOT INSTALLED (2 packs):
+NOT INSTALLED (1 pack):
   ⬜ pai-identity - Would add personality and response format
-  ⬜ pai-observability-server - Would add agent monitoring dashboard
 
 ISSUES FOUND:
-  1. Voice system missing ELEVENLABS_API_KEY in environment
-     → Fix: Add to ~/.claude/.env or disable voice notifications
+  (none)
 
 RECOMMENDATIONS:
-  1. [Quick fix] Add ElevenLabs API key to enable voice notifications
-  2. [New pack] Consider pai-identity for consistent response formatting
-  3. [Optional] pai-observability-server useful if you run multiple agents
+  1. [New pack] Consider pai-identity for consistent response formatting
 
 SUGGESTED NEXT: pai-identity
   - All dependencies met (hooks, history, skills installed)

@@ -1,6 +1,6 @@
 ---
 name: Research
-description: Comprehensive research, analysis, and content extraction system. USE WHEN user says 'do research', 'do extensive research', 'quick research', 'minor research', 'research this', 'find information', 'investigate', 'extract wisdom', 'extract alpha', 'analyze content', 'can't get this content', 'use fabric', OR requests any web/content research. Supports three research modes (quick/standard/extensive), deep content analysis, intelligent retrieval, and 242+ Fabric patterns. NOTE: For due diligence, OSINT, or background checks, use OSINT skill instead.
+description: Comprehensive research, analysis, and content extraction system. USE WHEN user says 'do research', 'do extensive research', 'quick research', 'minor research', 'research this', 'find information', 'investigate', 'extract wisdom', 'extract alpha', 'analyze content', 'use fabric', OR requests any web/content research. Supports three research modes (quick/standard/extensive), deep content analysis, intelligent retrieval, and 242+ Fabric patterns.
 implements: Science
 science_cycle_time: meso
 context: fork
@@ -25,30 +25,9 @@ Research agents hallucinate URLs. A single broken link is a catastrophic failure
 
 ---
 
-## Voice Notification
-
-**When executing a workflow, do BOTH:**
-
-1. **Send voice notification**:
-   ```bash
-   curl -s -X POST http://localhost:8888/notify \
-     -H "Content-Type: application/json" \
-     -d '{"message": "Running the WORKFLOWNAME workflow from the Research skill"}' \
-     > /dev/null 2>&1 &
-   ```
-
-2. **Output text notification**:
-   ```
-   Running the **WorkflowName** workflow from the **Research** skill...
-   ```
-
-**Full documentation:** `~/.claude/skills/CORE/SYSTEM/THENOTIFICATIONSYSTEM.md`
-
 ## Workflow Routing
 
 Route to the appropriate workflow based on the request.
-
-**CRITICAL:** For due diligence, company/person background checks, or vetting -> **INVOKE OSINT SKILL INSTEAD**
 
 ### Research Modes (Primary Workflows)
 - Quick/minor research (1 Claude, 1 query) -> `Workflows/QuickResearch.md`
@@ -59,9 +38,7 @@ Route to the appropriate workflow based on the request.
 - Extract alpha / deep analysis / highest-alpha insights -> `Workflows/ExtractAlpha.md`
 
 ### Content Retrieval
-- Difficulty accessing content (CAPTCHA, bot detection, blocking) -> `Workflows/Retrieve.md`
-- YouTube URL extraction (use `fabric -y URL` immediately) -> `Workflows/YoutubeExtraction.md`
-- Web scraping -> `Workflows/WebScraping.md`
+- Difficulty accessing content -> `Workflows/Retrieve.md`
 
 ### Specific Research Types
 - Claude WebSearch only (free, no API keys) -> `Workflows/ClaudeResearch.md`
@@ -98,9 +75,6 @@ Route to the appropriate workflow based on the request.
 
 ### Uses
 - **be-creative** - deep thinking for extract alpha
-- **OSINT** - MANDATORY for company/people comprehensive research
-- **BrightData MCP** - CAPTCHA solving, advanced scraping
-- **Apify MCP** - RAG browser, specialized site scrapers
 
 ---
 

@@ -122,12 +122,6 @@ What does the Council skill do?
 head -20 ~/.claude/skills/Council/Workflows/Debate.md
 ```
 
-### Voice Not Working
-
-Voice notifications are optional. If not working:
-1. Verify pai-voice-system is installed
-2. Check voice server is running: `curl http://localhost:8888/health`
-
 ---
 
 ## Verification Complete

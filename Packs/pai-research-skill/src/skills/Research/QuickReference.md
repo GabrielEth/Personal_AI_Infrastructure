@@ -17,13 +17,9 @@ Based on Shannon's information theory: **real information is what's different.**
 
 Output: 24-30 insights, Paul Graham style, 8-12 word bullets
 
-## Three-Layer Retrieval
+## Content Retrieval
 
-1. **Layer 1:** WebFetch/WebSearch (try first)
-2. **Layer 2:** BrightData MCP (CAPTCHA, bot detection)
-3. **Layer 3:** Apify MCP (specialized scrapers)
-
-Only escalate when previous layer fails.
+Use Claude Code's built-in WebFetch and WebSearch tools for content retrieval.
 
 ## Examples
 

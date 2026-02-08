@@ -73,7 +73,6 @@ AI agents are powerful but lack structure. Without a foundational system:
 **Without Response Standards:**
 - Every response has different format
 - No consistent way to communicate
-- Voice integration impossible
 - Users can't predict what they'll get
 
 **Without Architecture Documentation:**
@@ -109,7 +108,7 @@ Every AI response follows a predictable structure:
 - ANALYSIS for findings
 - ACTIONS for what was done
 - RESULTS for outcomes
-- Voice output for TTS integration
+- Completion summary
 
 ### Layer 2: SYSTEM/USER Two-Tier
 Configuration that never conflicts:
@@ -152,7 +151,7 @@ CORE is not a prompt - it's an operating system. While system prompts are static
 # Required
 export PAI_DIR="$HOME/.claude"
 
-# Optional - for voice integration
+# Optional
 export DA="YourAIName"
 export TIME_ZONE="America/Los_Angeles"
 ```
@@ -163,8 +162,7 @@ export TIME_ZONE="America/Los_Angeles"
 {
   "daidentity": {
     "name": "YourAIName",
-    "fullName": "Your AI Full Name",
-    "voiceId": "your-elevenlabs-voice-id"
+    "fullName": "Your AI Full Name"
   },
   "principal": {
     "name": "YourName",

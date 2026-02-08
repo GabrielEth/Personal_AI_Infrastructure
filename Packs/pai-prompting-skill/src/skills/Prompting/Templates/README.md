@@ -12,7 +12,6 @@ The templating system enables **prompts that write prompts** - dynamic compositi
 Templates/
 ├── Primitives/       # Core template files (.hbs)
 │   ├── Roster.hbs    # Agent/skill definitions
-│   ├── Voice.hbs     # Personality calibration
 │   ├── Structure.hbs # Workflow patterns
 │   ├── Briefing.hbs  # Agent context handoff
 │   └── Gate.hbs      # Validation checklists
@@ -29,7 +28,7 @@ Handlebars notation (Anthropic's official syntax):
 | Syntax | Purpose | Example |
 |--------|---------|---------|
 | `{{variable}}` | Simple interpolation | `Hello {{name}}` |
-| `{{object.property}}` | Nested access | `{{agent.voice_id}}` |
+| `{{object.property}}` | Nested access | `{{agent.role}}` |
 | `{{#each items}}...{{/each}}` | Iteration | List generation |
 | `{{#if condition}}...{{/if}}` | Conditional | Optional sections |
 | `{{> partial}}` | Include partial | Reusable components |

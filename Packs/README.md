@@ -172,32 +172,20 @@ PAI System
 |------|----------|-------------|
 | [**pai-hook-system**](pai-hook-system/) | Foundation | Event-driven automation framework - the foundation for all hook-based capabilities |
 | [**pai-core-install**](pai-core-install/) | Core | Skills + Identity + Architecture - the complete foundation with routing, response format, MEMORY system |
-| [**pai-voice-system**](pai-voice-system/) | Notifications | Voice notifications with ElevenLabs TTS and prosody enhancement for natural speech |
-| [**pai-observability-server**](pai-observability-server/) | Observability | Real-time multi-agent monitoring dashboard with WebSocket streaming |
-| [**pai-statusline**](pai-statusline/) | Display | 4-mode responsive status line with learning signal, context usage, and trend indicators |
-
-### Skill Packs (18)
+### Skill Packs (10)
 
 | Pack | Category | Description |
 |------|----------|-------------|
 | [**pai-agents-skill**](pai-agents-skill/) | Delegation | Dynamic agent composition with unique personalities, voices, and trait combinations |
 | [**pai-algorithm-skill**](pai-algorithm-skill/) | Methodology | The Algorithm implementation - ISC management, effort classification, verifiable iteration |
-| [**pai-annualreports-skill**](pai-annualreports-skill/) | Research | Annual security report aggregation and threat landscape analysis |
-| [**pai-art-skill**](pai-art-skill/) | Creativity | Visual content generation with multi-reference image support and technical diagrams |
-| [**pai-brightdata-skill**](pai-brightdata-skill/) | Scraping | Progressive URL scraping with Bright Data integration and tier escalation |
-| [**pai-browser-skill**](pai-browser-skill/) | Automation | Debug-first browser automation with Playwright - always-on diagnostics, session auto-start |
 | [**pai-council-skill**](pai-council-skill/) | Analysis | Multi-agent debate system for exploring perspectives and reaching consensus |
 | [**pai-createcli-skill**](pai-createcli-skill/) | Development | Generate TypeScript CLI tools with bun runtime |
 | [**pai-createskill-skill**](pai-createskill-skill/) | Development | Create and validate PAI skills with proper structure |
 | [**pai-firstprinciples-skill**](pai-firstprinciples-skill/) | Analysis | First principles decomposition and root cause analysis |
-| [**pai-osint-skill**](pai-osint-skill/) | Research | Open source intelligence gathering and due diligence |
-| [**pai-privateinvestigator-skill**](pai-privateinvestigator-skill/) | Research | Ethical people-finding for reconnection and verification |
 | [**pai-prompting-skill**](pai-prompting-skill/) | Methodology | Meta-prompting system with Handlebars templates and Claude best practices |
-| [**pai-recon-skill**](pai-recon-skill/) | Security | Security reconnaissance, bug bounty, and attack surface mapping |
 | [**pai-redteam-skill**](pai-redteam-skill/) | Security | Adversarial analysis with 32 specialized agents for stress testing ideas |
 | [**pai-research-skill**](pai-research-skill/) | Research | Multi-source research with parallel agent execution and Fabric patterns |
 | [**pai-system-skill**](pai-system-skill/) | Maintenance | System integrity checks, documentation updates, and security scanning |
-| [**pai-telos-skill**](pai-telos-skill/) | Life OS | Deep goal capture framework - mission, goals, beliefs, strategies, learnings |
 
 ---
 
@@ -210,13 +198,8 @@ Required (install first):
 1. pai-hook-system            ← Foundation (no dependencies)
 2. pai-core-install           ← Depends on hooks, includes MEMORY system
 
-Infrastructure (install next):
-3. pai-statusline             ← Depends on core-install
-4. pai-voice-system           ← Depends on hooks, core-install
-5. pai-observability-server   ← Depends on hooks
-
 Skills (install any you need):
-6+. pai-*-skill               ← Most depend only on core-install
+3+. pai-*-skill               ← Most depend only on core-install
 ```
 
 **Or install the complete [PAI Bundle](../Bundles/Official/)** which handles ordering automatically.

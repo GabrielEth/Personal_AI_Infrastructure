@@ -2,10 +2,10 @@
 
 ## Problem
 
-Currently, configuration variables (DA identity, principal name, voice ID, color, etc.) are stored in **markdown files** and parsed with regex:
+Currently, configuration variables (DA identity, principal name, color, etc.) are stored in **markdown files** and parsed with regex:
 
 ```typescript
-// Current approach - from stop-hook-voice.ts
+// Current approach - from stop-hook.ts
 const content = readFileSync('DAIDENTITY.md', 'utf-8');
 const nameMatch = content.match(/\*\*Name:\*\*\s*(\w+)/);
 const displayMatch = content.match(/\*\*Display\s*Name:\*\*\s*(.+?)(?:\n|$)/i);
@@ -38,7 +38,6 @@ This is:
     "displayName": "Kai",
     "fullName": "Kai Magnus",
     "color": "#3B82F6",
-    "voiceId": "YOUR_ELEVENLABS_VOICE_ID",
     "personality": {
       "enthusiasm": 60,
       "precision": 95,
@@ -56,12 +55,6 @@ This is:
     }
   },
 
-  "voice": {
-    "enabled": true,
-    "serverUrl": "http://localhost:8888",
-    "defaultVoiceId": "YOUR_ELEVENLABS_VOICE_ID"
-  },
-
   "permissions": { ... },
   "hooks": { ... }
 }
@@ -76,7 +69,6 @@ This is:
 | `**Full Name:**` | `identity.fullName` |
 | `**Display Name:**` | `identity.displayName` |
 | `**Color:**` | `identity.color` |
-| `**Voice ID:**` | `identity.voiceId` |
 | `**Role:**` | `identity.role` |
 
 ### From BASICINFO.md → settings.json.principal
@@ -89,23 +81,20 @@ This is:
 ### From .env → settings.json.env or dedicated sections
 | .env Variable | JSON Path |
 |---------------|-----------|
-| `ELEVENLABS_VOICE_ID` | `voice.defaultVoiceId` |
-| `VOICE_SERVER_URL` | `voice.serverUrl` |
 | `PAI_DIR` | `env.PAI_DIR` |
 | `DA` | `identity.name` |
 
 ## Files to Modify
 
 ### 1. settings.json.template (pai-core-install)
-Add new sections: `identity`, `principal`, `voice`
+Add new sections: `identity`, `principal`
 
 ### 2. Install Wizard (Bundles/Official/install.ts)
 - Add prompts for identity name, display name, color
 - Add prompts for principal name, pronunciation
-- Add prompts for voice configuration
 - Write all values to settings.json
 
-### 3. Hooks (pai-hook-system, pai-voice-system)
+### 3. Hooks (pai-hook-system)
 Replace markdown parsing with settings.json reading:
 
 ```typescript
@@ -143,7 +132,7 @@ Keep the file but change its purpose:
 ## Migration Path
 
 ### Phase 1: Add to settings.json (backward compatible)
-1. Add `identity`, `principal`, `voice` sections to settings.json.template
+1. Add `identity`, `principal` sections to settings.json.template
 2. Update install wizard to populate these values
 3. Create `lib/settings-loader.ts` utility
 
@@ -163,7 +152,6 @@ Keep the file but change its purpose:
 |------|----------------|
 | `pai-core-install` | settings.json.template, DAIDENTITY.md |
 | `pai-hook-system` | All hooks that read identity |
-| `pai-voice-system` | stop-hook-voice.ts |
 | `pai-history-system` | Any hooks reading DA name |
 | `Official Bundle` | install.ts wizard |
 

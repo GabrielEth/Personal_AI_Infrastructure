@@ -5,10 +5,10 @@ version: 2.3.0
 author: danielmiessler
 description: Comprehensive research, analysis, and content extraction system with multi-agent research modes, deep content analysis, intelligent retrieval, and 242+ Fabric patterns.
 type: skill
-purpose-type: [research, analysis, extraction, web-scraping, content-processing]
+purpose-type: [research, analysis, extraction, content-processing]
 platform: claude-code
 dependencies: [pai-core-install]
-keywords: [research, analysis, extraction, fabric, perplexity, web-scraping, content, youtube, alpha, wisdom, multi-agent]
+keywords: [research, analysis, extraction, fabric, content, alpha, wisdom, multi-agent]
 ---
 
 <p align="center">
@@ -27,18 +27,10 @@ keywords: [research, analysis, extraction, fabric, perplexity, web-scraping, con
 
 - **Three Research Modes** - Quick (1 agent), Standard (3 agents), Extensive (12 agents)
 - **Deep Content Analysis** - Extract Alpha workflow for high-value insight extraction
-- **Intelligent Retrieval** - Three-layer scraping with anti-bot handling
+- **Content Retrieval** - WebFetch/WebSearch based content retrieval
 - **Fabric Integration** - 242+ specialized patterns for content processing
 - **URL Verification** - Mandatory protocol to prevent hallucinated links
-- **Multi-Source Support** - YouTube, web articles, PDFs, and more
-
-## Key Differentiator
-
-**Research vs OSINT:**
-- **Research** is for information gathering, analysis, and synthesis
-- **OSINT** is for due diligence, background checks, and people finding
-- Research produces synthesized insights from multiple sources
-- OSINT produces comprehensive profiles and verification
+- **Multi-Source Support** - Web articles, PDFs, and more
 
 ## Architecture
 
@@ -52,11 +44,9 @@ Research Skill
     ├── StandardResearch.md      # 3 agents (default)
     ├── ExtensiveResearch.md     # 12 agents, comprehensive
     ├── ExtractAlpha.md          # Deep insight extraction
-    ├── Retrieve.md              # Multi-layer content retrieval
+    ├── Retrieve.md              # Content retrieval
     ├── Fabric.md                # 242+ pattern selection
     ├── ClaudeResearch.md        # Claude WebSearch only
-    ├── YoutubeExtraction.md     # YouTube content via fabric -y
-    ├── WebScraping.md           # Web scraping workflows
     ├── InterviewResearch.md     # Tyler Cowen-style prep
     ├── AnalyzeAiTrends.md       # AI industry trend analysis
     ├── Enhance.md               # Content enhancement
@@ -79,10 +69,9 @@ Research Skill
 | **StandardResearch** | Multi-perspective research | Default for most research requests |
 | **ExtensiveResearch** | Comprehensive deep-dive | Major decisions, comprehensive coverage |
 | **ExtractAlpha** | High-alpha insight extraction | Content analysis, finding novel insights |
-| **Retrieve** | Difficult content retrieval | CAPTCHA bypass, bot detection |
+| **Retrieve** | Difficult content retrieval | WebFetch/WebSearch fallback |
 | **Fabric** | Pattern-based processing | 242+ specialized transformations |
 | **ClaudeResearch** | Free Claude WebSearch | No API keys needed |
-| **YoutubeExtraction** | YouTube content extraction | Video transcripts, summaries |
 | **InterviewResearch** | Interview preparation | Tyler Cowen-style questions |
 
 ## Extract Alpha Philosophy
@@ -94,13 +83,9 @@ Based on Claude Shannon's information theory: **real information is what's diffe
 
 Output: 24-30 insights, Paul Graham style, 8-12 word bullets
 
-## Three-Layer Retrieval
+## Content Retrieval
 
-1. **Layer 1:** WebFetch/WebSearch (try first - fast, free)
-2. **Layer 2:** BrightData MCP (CAPTCHA, bot detection)
-3. **Layer 3:** Apify MCP (specialized scrapers, social media)
-
-Only escalate when previous layer fails.
+Uses Claude Code's built-in WebFetch and WebSearch tools for content retrieval.
 
 ## URL Verification Protocol
 
@@ -133,8 +118,8 @@ WebFetch(url, "Confirm article exists and summarize")
 "Extract alpha from this video" [URL]
 -> ExtractAlpha -> 24-30 high-alpha insights
 
-"Can't get this content" [protected URL]
--> Retrieve -> Multi-layer scraping with anti-bot
+"Can't get this content" [URL]
+-> Retrieve -> WebFetch/WebSearch retrieval
 ```
 
 ## What's Included
@@ -148,11 +133,9 @@ WebFetch(url, "Confirm article exists and summarize")
 | Standard Research | src/skills/Research/Workflows/StandardResearch.md | Default 3-agent |
 | Extensive Research | src/skills/Research/Workflows/ExtensiveResearch.md | 12-agent deep dive |
 | Extract Alpha | src/skills/Research/Workflows/ExtractAlpha.md | Deep insight extraction |
-| Retrieve | src/skills/Research/Workflows/Retrieve.md | Multi-layer scraping |
+| Retrieve | src/skills/Research/Workflows/Retrieve.md | Content retrieval |
 | Fabric | src/skills/Research/Workflows/Fabric.md | 242+ pattern selection |
 | Claude Research | src/skills/Research/Workflows/ClaudeResearch.md | Free WebSearch |
-| YouTube | src/skills/Research/Workflows/YoutubeExtraction.md | Video extraction |
-| Web Scraping | src/skills/Research/Workflows/WebScraping.md | Scraping workflows |
 | Interview | src/skills/Research/Workflows/InterviewResearch.md | Interview prep |
 | AI Trends | src/skills/Research/Workflows/AnalyzeAiTrends.md | Trend analysis |
 | Enhance | src/skills/Research/Workflows/Enhance.md | Content enhancement |
@@ -161,14 +144,7 @@ WebFetch(url, "Confirm article exists and summarize")
 ## Integration
 
 **Works well with:**
-- **OSINT** - For company/people background checks (different skill)
-- **Blogging** - Research for blog posts
-- **Newsletter** - Research for newsletters
 - **BeCreative** - Deep thinking for Extract Alpha
-
-**Uses:**
-- **BrightData MCP** - CAPTCHA solving, advanced scraping
-- **Apify MCP** - RAG browser, specialized site scrapers
 
 ## Credits
 

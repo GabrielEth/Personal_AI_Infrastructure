@@ -28,9 +28,9 @@ This is the north star. Every capability, every phase, every ISC row exists to s
 
 ---
 
-## Visual Display & Voice Notifications
+## Visual Display
 
-**Use the LCARS-style AlgorithmDisplay for visual feedback and voice announcements:**
+**Use the LCARS-style AlgorithmDisplay for visual feedback:**
 
 ```bash
 # Start algorithm with effort level (shows banner + announces via voice)
@@ -51,14 +51,14 @@ bun run ~/.claude/skills/THEALGORITHM/Tools/AlgorithmDisplay.ts effort DETERMINE
 - 🎯 Current effort level (TRIVIAL → DETERMINED) with color-coded banner
 - 📊 Phase progression bar (7 phases with completion status)
 - 📝 ISC summary (rows pending/active/done)
-- 🔊 Voice announcements when transitioning phases
+- Phase transition tracking
 
 **Phase Icons:** 👁️ OBSERVE → 🧠 THINK → 📋 PLAN → 🔨 BUILD → ⚡ EXECUTE → ✅ VERIFY → 📚 LEARN
 
 ## Quick Start
 
 ```bash
-# 1. START WITH VISUAL DISPLAY (shows banner + voice announcement)
+# 1. START WITH VISUAL DISPLAY (shows banner)
 bun run ~/.claude/skills/THEALGORITHM/Tools/AlgorithmDisplay.ts start STANDARD -r "your request"
 
 # 2. CLASSIFY EFFORT (if not using display start)
@@ -72,7 +72,7 @@ bun run ~/.claude/skills/THEALGORITHM/Tools/CapabilityLoader.ts --effort STANDAR
 # 4. CREATE ISC
 bun run ~/.claude/skills/THEALGORITHM/Tools/ISCManager.ts create --request "your request"
 
-# 5. TRANSITION PHASES (voice + visual update)
+# 5. TRANSITION PHASES (visual update)
 bun run ~/.claude/skills/THEALGORITHM/Tools/AlgorithmDisplay.ts phase THINK
 bun run ~/.claude/skills/THEALGORITHM/Tools/AlgorithmDisplay.ts phase PLAN
 # ... continues through EXECUTE, VERIFY, LEARN
@@ -395,7 +395,7 @@ bun run ISCManager.ts interview -r "vague request"
 |------|---------|
 | `Data/Capabilities.yaml` | **Source of truth** for all capabilities |
 | `Data/VerificationMethods.yaml` | **Verification method registry** |
-| `Tools/AlgorithmDisplay.ts` | **LCARS visual display** + voice announcements |
+| `Tools/AlgorithmDisplay.ts` | **LCARS visual display** |
 | `Tools/EffortClassifier.ts` | Classify TRIVIAL→DETERMINED |
 | `Tools/CapabilityLoader.ts` | Load + filter capabilities by effort |
 | `Tools/CapabilitySelector.ts` | Select capabilities for ISC rows |

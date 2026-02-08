@@ -419,7 +419,6 @@ What's available:
 Next steps:
 - Run `source ~/.zshrc` to apply environment changes
 - Ask me anything and I'll use my new capabilities
-- Say 'help me set up voice' to add spoken notifications
 - Say 'show me available skills' to see what I can do"
 ```
 
@@ -527,7 +526,6 @@ source ~/.zshrc
 ### Adding Skills
 
 Install additional PAI packs to add capabilities:
-- pai-voice-system - Voice notifications
-- pai-browser-skill - Browser automation
 - pai-research-skill - Multi-model research
+- pai-agents-skill - Dynamic agent composition
 - And more...

@@ -22,7 +22,6 @@ Before starting, greet the user:
 This pack includes:
 - 10+ named agent templates (Engineer, Architect, Designer, etc.)
 - Dynamic agent composition from 28 traits
-- Voice mapping for personality-based audio
 - Parallel agent orchestration patterns
 
 Let me analyze your system and guide you through installation."
@@ -71,12 +70,6 @@ else
   echo "WARNING bun not installed (required for agent tools)"
 fi
 
-# Check for voice server (optional)
-if [ -d "$PAI_CHECK/VoiceServer" ]; then
-  echo "OK VoiceServer directory exists"
-else
-  echo "INFO VoiceServer not found (optional for voice output)"
-fi
 ```
 
 ### 1.2 Present Findings
@@ -87,8 +80,7 @@ Tell the user what you found:
 - pai-core-install: [installed / NOT INSTALLED - REQUIRED]
 - Existing Agents skill: [Yes at path / No]
 - Existing agents templates: [Yes at path / No]
-- bun: [installed vX.X / NOT INSTALLED - REQUIRED]
-- VoiceServer: [found / not found (optional)]"
+- bun: [installed vX.X / NOT INSTALLED - REQUIRED]"
 ```
 
 **STOP if pai-core-install is not installed.** Tell the user:
@@ -142,21 +134,7 @@ Tell the user what you found:
 }
 ```
 
-### Question 3: Voice Server Integration
-
-```json
-{
-  "header": "Voice Integration",
-  "question": "Configure voice server integration for agent personalities?",
-  "multiSelect": false,
-  "options": [
-    {"label": "Yes, configure voice integration (Recommended)", "description": "Agents will use ElevenLabs voices based on personality"},
-    {"label": "Skip voice setup", "description": "Agents work without voice output"}
-  ]
-}
-```
-
-### Question 4: Final Confirmation
+### Question 3: Final Confirmation
 
 ```json
 {
@@ -256,10 +234,10 @@ cp "$PACK_DIR/src/skills/Agents/Workflows/"*.md "$PAI_DIR/skills/Agents/Workflow
 
 **Files copied:**
 - `SKILL.md` - Main skill routing and documentation
-- `AgentPersonalities.md` - Named agent definitions with voices
+- `AgentPersonalities.md` - Named agent definitions with personalities
 - `AgentProfileSystem.md` - Context loading system docs
 - `*Context.md` - Agent-specific context files (9 files: Architect, Artist, ClaudeResearcher, CodexResearcher, Designer, Engineer, GeminiResearcher, GrokResearcher, QATester)
-- `Data/Traits.yaml` - 28 composable traits + 45 voice mappings
+- `Data/Traits.yaml` - 28 composable traits
 - `Templates/DynamicAgent.hbs` - Dynamic agent prompt template
 - `Tools/*.ts` - AgentFactory, LoadAgentContext, SpawnAgentWithProfile
 - `Tools/package.json` - Dependencies (yaml, handlebars)
@@ -455,13 +433,6 @@ cd ~/.claude/skills/Agents/Tools
 bun install
 ```
 
-### Voice output not working
-
-Ensure VoiceServer is configured:
-1. Check `~/.claude/VoiceServer/` exists
-2. Verify ElevenLabs API key is set
-3. Test with: `curl http://localhost:8888/health`
-
 ### Traits.yaml parsing errors
 
 Verify YAML is valid:
@@ -477,10 +448,10 @@ python3 -c "import yaml; yaml.safe_load(open('$HOME/.claude/skills/Agents/Data/T
 | File | Purpose |
 |------|---------|
 | `SKILL.md` | Main skill definition with workflow routing |
-| `AgentPersonalities.md` | Named agent definitions with voices |
+| `AgentPersonalities.md` | Named agent definitions with personalities |
 | `AgentProfileSystem.md` | Context loading system documentation |
 | `*Context.md` | Agent-specific context files |
-| `Data/Traits.yaml` | 28 composable traits + voice mappings |
+| `Data/Traits.yaml` | 28 composable traits |
 | `Templates/DynamicAgent.hbs` | Dynamic agent prompt template |
 | `Tools/AgentFactory.ts` | Dynamic agent composition engine |
 | `Tools/LoadAgentContext.ts` | Context loader utility |

@@ -237,7 +237,7 @@ cp "$PACK_DIR/src/hooks/"*.hook.ts "$PAI_DIR/hooks/"
 **Hooks included (15 total):**
 - `SecurityValidator.hook.ts` - PreToolUse: Block dangerous commands
 - `LoadContext.hook.ts` - SessionStart: Load CORE skill context
-- `StartupGreeting.hook.ts` - SessionStart: Voice greeting
+- `StartupGreeting.hook.ts` - SessionStart: Startup greeting
 - `CheckVersion.hook.ts` - SessionStart: Version compatibility
 - `UpdateTabTitle.hook.ts` - UserPromptSubmit: Tab automation
 - `SetQuestionTab.hook.ts` - UserPromptSubmit: Question tracking
@@ -266,7 +266,7 @@ cp "$PACK_DIR/src/hooks/lib/"*.ts "$PAI_DIR/hooks/lib/"
 
 **Libraries included (12 total):**
 - `observability.ts` - Event logging and dashboard integration
-- `notifications.ts` - Voice and notification system
+- `notifications.ts` - Notification system
 - `identity.ts` - Session and user identity
 - `paths.ts` - PAI directory utilities
 - `time.ts` - Timezone formatting
@@ -293,7 +293,6 @@ cp "$PACK_DIR/src/hooks/handlers/"*.ts "$PAI_DIR/hooks/handlers/"
 
 **Handlers included (4 total):**
 - `capture.ts` - Output capture coordination
-- `voice.ts` - Voice notification handling
 - `tab-state.ts` - Tab state management
 - `SystemIntegrity.ts` - System integrity checks
 
@@ -559,7 +558,7 @@ grep "UpdateTabTitle" ~/.claude/settings.json
 |------|-------|---------|
 | `SecurityValidator.hook.ts` | PreToolUse | Block dangerous commands |
 | `LoadContext.hook.ts` | SessionStart | Load CORE skill context |
-| `StartupGreeting.hook.ts` | SessionStart | Voice greeting |
+| `StartupGreeting.hook.ts` | SessionStart | Startup greeting |
 | `CheckVersion.hook.ts` | SessionStart | Version check |
 | `UpdateTabTitle.hook.ts` | UserPromptSubmit | Tab automation |
 | `SetQuestionTab.hook.ts` | UserPromptSubmit | Question tracking |
@@ -578,7 +577,7 @@ grep "UpdateTabTitle" ~/.claude/settings.json
 | File | Purpose |
 |------|---------|
 | `observability.ts` | Dashboard integration |
-| `notifications.ts` | Voice/notification system |
+| `notifications.ts` | Notification system |
 | `identity.ts` | Identity management |
 | `paths.ts` | Path utilities |
 | `time.ts` | Time formatting |
@@ -595,7 +594,6 @@ grep "UpdateTabTitle" ~/.claude/settings.json
 | File | Purpose |
 |------|---------|
 | `capture.ts` | Output capture |
-| `voice.ts` | Voice handling |
 | `tab-state.ts` | Tab management |
 | `SystemIntegrity.ts` | System checks |
 

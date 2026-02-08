@@ -62,12 +62,6 @@ grep -E "^expertise:|^personality:|^approach:" ~/.claude/skills/Agents/Data/Trai
 ```
 **Expected:** All three categories found
 
-### Traits.yaml contains voice mappings
-```bash
-grep "voice_mappings:" ~/.claude/skills/Agents/Data/Traits.yaml
-```
-**Expected:** Match found
-
 ### DynamicAgent template is valid Handlebars
 ```bash
 grep "{{#if expertise}}" ~/.claude/skills/Agents/Templates/DynamicAgent.hbs
@@ -78,7 +72,7 @@ grep "{{#if expertise}}" ~/.claude/skills/Agents/Templates/DynamicAgent.hbs
 ```bash
 head -10 ~/.claude/agents/Engineer.md
 ```
-**Expected:** YAML frontmatter with name, description, model, voiceId
+**Expected:** YAML frontmatter with name, description, model
 
 ---
 
@@ -94,7 +88,7 @@ cd ~/.claude/skills/Agents/Tools && bun run AgentFactory.ts --list | head -30
 ```bash
 cd ~/.claude/skills/Agents/Tools && bun run AgentFactory.ts --task "Review security" --output summary
 ```
-**Expected:** Shows composed agent with traits and voice
+**Expected:** Shows composed agent with traits and personality
 
 ### AgentFactory composes agent from traits
 ```bash
@@ -135,12 +129,6 @@ done
 cd ~/.claude/skills/Agents/Tools && bun run AgentFactory.ts --list 2>/dev/null | grep -c "^  [a-z]"
 ```
 **Expected:** 28 or more (10 expertise + 10 personality + 8 approach)
-
-### Voice mapping verification
-```bash
-grep "voice_registry:" ~/.claude/skills/Agents/Data/Traits.yaml
-```
-**Expected:** Match found
 
 ### Agent template count
 ```bash
@@ -208,7 +196,7 @@ When all items pass:
 
 1. **Confirm to user:** "PAI Agents Skill installation verified successfully"
 2. **Recommend:** "Try creating a custom agent: 'create a skeptical security agent to review this code'"
-3. **Note:** Voice integration requires VoiceServer to be running for audio output
+3. **Note:** All agent features are text-based and work immediately
 
 ---
 
@@ -249,13 +237,6 @@ Verify YAML syntax:
 ```bash
 python3 -c "import yaml; yaml.safe_load(open('$HOME/.claude/skills/Agents/Data/Traits.yaml'))" && echo "Valid YAML"
 ```
-
-### Voice output not working
-1. Ensure VoiceServer is running: `curl http://localhost:8888/health`
-2. Check ElevenLabs API key is configured
-3. Verify agent has valid voiceId in template frontmatter
-
----
 
 ## Quick Functional Test
 

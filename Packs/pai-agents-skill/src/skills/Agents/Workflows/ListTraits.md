@@ -100,42 +100,6 @@ Examples:
 Just describe what you need naturally, and I'll compose the right agent.
 ```
 
-## Enhanced Presentation (Optional)
-
-If user wants more detail, also explain voice assignment:
-
-```
-Each trait combination maps to a unique voice:
-
-ENERGETIC VOICES (enthusiastic, creative, bold):
-- Jeremy (excited Irish-American male)
-- Fin (energetic Irish storyteller)
-- Freya (vibrant dynamic female)
-- Dave (youthful British energy)
-
-INTELLECTUAL VOICES (analytical, skeptical, research):
-- Default (BBC anchor authority)
-- George (academic warm raspy)
-- Charlotte (sophisticated Swedish-British)
-- Antoni (professorial articulate)
-
-AUTHORITATIVE VOICES (bold, business, cautious):
-- Domi (assertive CEO female)
-- Bill (documentary trustworthy male)
-- Alice (confident news anchor female)
-- Joseph (formal British authority)
-
-WARM VOICES (empathetic, consultative):
-- Matilda (friendly American storyteller)
-- Thomas (calm gentle guide)
-- Rachel (calm supportive)
-
-EDGY VOICES (adversarial, contrarian, security):
-- Clyde (gravelly war veteran intensity)
-- Callum (hoarse hacker character)
-- Sam (raspy gritty authentic)
-```
-
 ## Example Interaction
 
 **User:** "What kinds of agents can you create?"
@@ -161,7 +125,7 @@ Just tell me what you need:
 - "Create a skeptical security analyst"
 - "Get me someone creative and fast"
 
-I'll compose the right agent with a matching voice.
+I'll compose the right agent for the job.
 ```
 
 ## Quick Reference Card (Optional)
@@ -196,5 +160,5 @@ Popular Combos:
 ## References
 
 - Full trait definitions: `~/.claude/skills/Agents/Data/Traits.yaml`
-- Voice mappings: Lines 349-794 in Traits.yaml
+- Trait compositions: Traits.yaml
 - AgentFactory tool: `~/.claude/skills/Agents/Tools/AgentFactory.ts`

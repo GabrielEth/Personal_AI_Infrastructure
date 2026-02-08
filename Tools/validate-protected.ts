@@ -317,7 +317,6 @@ function checkFileContent(filePath: string, manifest: ProtectedManifest): {
     if (category.validation.includes('secrets') && !isException) {
       const secretPatterns = [
         /ANTHROPIC_API_KEY=sk-/,
-        /ELEVENLABS_API_KEY=(?!your_elevenlabs_api_key_here)/,
         /PERPLEXITY_API_KEY=(?!your_perplexity_api_key_here)/,
         /@danielmiessler\.com/,
         /@unsupervised-learning\.com/,

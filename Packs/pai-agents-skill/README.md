@@ -3,12 +3,12 @@ name: PAI Agents Skill
 pack-id: danielmiessler-pai-agents-skill-v2.3.0
 version: 2.3.0
 author: danielmiessler
-description: Dynamic agent composition and management system with custom personalities, voice mappings, and parallel orchestration
+description: Dynamic agent composition and management system with custom personalities and parallel orchestration
 type: skill
 purpose-type: [agent-management, orchestration, personality-system]
 platform: claude-code
 dependencies: [pai-core-install]
-keywords: [agents, custom-agents, personalities, voices, parallel, orchestration]
+keywords: [agents, custom-agents, personalities, parallel, orchestration]
 ---
 
 # PAI Agents Skill Pack v2.3.0
@@ -22,7 +22,6 @@ keywords: [agents, custom-agents, personalities, voices, parallel, orchestration
 The Agents skill is a complete agent composition and management system that enables:
 
 - **Dynamic Agent Composition** - Create specialized agents from trait combinations (expertise + personality + approach)
-- **Personality-Based Voice Mapping** - Each unique trait combination maps to a distinct ElevenLabs voice
 - **Named Agent Templates** - Pre-configured agents for common roles (Engineer, Architect, Designer, etc.)
 - **Parallel Agent Orchestration** - Launch multiple agents simultaneously for parallel work
 - **Context Loading System** - Simple markdown-based context files for agent specialization
@@ -35,7 +34,7 @@ The Agents skill is a complete agent composition and management system that enab
 
 | Type | Definition | Best For |
 |------|------------|----------|
-| **Named Agents** | Persistent identities with backstories | Recurring work, voice output, relationships |
+| **Named Agents** | Persistent identities with backstories | Recurring work, relationships |
 | **Dynamic Agents** | Task-specific specialists from traits | One-off tasks, novel combinations, parallel work |
 
 ### Trait Categories
@@ -49,27 +48,17 @@ The Agents skill is a complete agent composition and management system that enab
 **Approach** (8 methods):
 - thorough, rapid, systematic, exploratory, comparative, synthesizing, adversarial, consultative
 
-### Voice Integration
-
-Each trait combination automatically maps to an appropriate ElevenLabs voice:
-- Skeptical + analytical -> George (intellectual warmth)
-- Enthusiastic + creative -> Jeremy (high energy)
-- Bold + business -> Domi (assertive CEO)
-- 45+ voices with characteristics defined
-
----
-
 ## Named Agents Included
 
-| Agent | Role | Voice ID |
-|-------|------|----------|
-| Engineer | Elite principal engineer with TDD focus | iLVmqjzCGGvqtMCk6vVQ |
-| Architect | System design with PhD-level expertise | muZKMsIDGYtIkjjiUS82 |
-| Designer | UX/UI specialist with design school pedigree | 2f09SZ8gvYo2C1S98dOr |
-| QATester | Quality validation using browser automation | 4JeAhLWWF31aL3Xfm6LQ |
-| Pentester | Security specialist, reformed grey hat | n9TLi5s4c4P3zV4Kgf3C |
-| Artist | Visual content creator | f6DmA3m8JRwzf1qgkITQ |
-| Intern | Fast parallel grunt work | d3MFdIuCfbAIwiu7jC4a |
+| Agent | Role |
+|-------|------|
+| Engineer | Elite principal engineer with TDD focus |
+| Architect | System design with PhD-level expertise |
+| Designer | UX/UI specialist with design school pedigree |
+| QATester | Quality validation using browser automation |
+| Pentester | Security specialist, reformed grey hat |
+| Artist | Visual content creator |
+| Intern | Fast parallel grunt work |
 
 ---
 
@@ -79,7 +68,7 @@ Each trait combination automatically maps to an appropriate ElevenLabs voice:
 ```
 User: "Spin up 5 custom science agents to analyze this data"
 -> Creates 5 agents with DIFFERENT trait combinations
--> Each gets unique personality + matched voice
+-> Each gets unique personality + matched configuration
 -> All run in parallel
 ```
 
@@ -154,7 +143,6 @@ pai-agents-skill/
 
 - **pai-core-install** - Required (provides CORE skill infrastructure)
 - **bun** - For running TypeScript tools
-- **ElevenLabs API** (optional) - For voice output via voice server
 
 ---
 

@@ -118,10 +118,7 @@ If they chose the PAI Bundle, explain what's included:
 |------|--------------|
 | **pai-hook-system** | Event-driven automation — the foundation everything else builds on |
 | **pai-core-install** | Identity, skills routing, system configuration, and memory system |
-| **pai-agents-skill** | Dynamic agent composition with personality traits and voices |
-| **pai-voice-system** | Spoken notifications via text-to-speech (optional) |
-| **pai-browser-skill** | Web automation for testing and verification |
-| **pai-observability-server** | Real-time dashboard for monitoring agent activity |
+| **pai-agents-skill** | Dynamic agent composition with personality traits |
 
 **Ask: Ready to install the PAI Bundle?**
 - Yes, install everything
@@ -143,9 +140,6 @@ For each pack being installed:
 1. pai-hook-system (foundation - hooks enable everything else)
 2. pai-core-install (identity, skills, memory system)
 3. pai-agents-skill (agent composition - requires core)
-4. pai-voice-system (optional - TTS notifications)
-5. pai-browser-skill (optional - web automation)
-6. pai-observability-server (optional - monitoring dashboard)
 
 ---
 
@@ -219,8 +213,6 @@ bun run install.ts
 # Then install each pack manually IN ORDER:
 # 1. pai-hook-system
 # 2. pai-core-install
-# 3. pai-statusline
-# 4. pai-voice-system (optional)
 ```
 
 > **Warning:** The Bundle wizard alone does NOT create a working system. You must install the required packs afterward.

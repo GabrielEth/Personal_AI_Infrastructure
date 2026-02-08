@@ -67,7 +67,7 @@ $PAI_DIR/
 ├── hooks/                           # Hook implementations
 │   ├── SecurityValidator.hook.ts    # PreToolUse: Block dangerous commands
 │   ├── LoadContext.hook.ts          # SessionStart: Context injection
-│   ├── StartupGreeting.hook.ts      # SessionStart: Voice greeting
+│   ├── StartupGreeting.hook.ts      # SessionStart: Startup greeting
 │   ├── CheckVersion.hook.ts         # SessionStart: Version compatibility
 │   ├── UpdateTabTitle.hook.ts       # UserPromptSubmit: Tab automation
 │   ├── SetQuestionTab.hook.ts       # UserPromptSubmit: Question state
@@ -91,7 +91,7 @@ $PAI_DIR/
 |-------|---------------|-----------|
 | `PreToolUse` | Before a tool executes | Security validation, command modification, blocking |
 | `PostToolUse` | After a tool executes | Logging, capturing output, triggering actions |
-| `Stop` | Main agent finishes | Capture work summaries, voice notifications |
+| `Stop` | Main agent finishes | Capture work summaries, notifications |
 | `SubagentStop` | Subagent finishes | Capture agent outputs, route to categories |
 | `SessionStart` | New session begins | Load context, initialize state |
 | `SessionEnd` | Session closes | Summarize work, cleanup |
@@ -149,7 +149,7 @@ The hook system's power comes from its **event-driven middleware pattern** - a l
 |          v                                                              |
 |  +------------------------------------------------------------------+  |
 |  |                    LAYER 5: External Integrations                 |  |
-|  |  Observability dashboards, voice servers, notification systems    |  |
+|  |  Observability dashboards, notification systems                   |  |
 |  +------------------------------------------------------------------+  |
 |                                                                         |
 +-------------------------------------------------------------------------+
@@ -265,7 +265,7 @@ See [VERIFY.md](VERIFY.md) for testing and verification procedures.
 | Hook | Purpose |
 |------|---------|
 | `LoadContext.hook.ts` | Inject CORE skill into context |
-| `StartupGreeting.hook.ts` | Display PAI banner with voice |
+| `StartupGreeting.hook.ts` | Display PAI banner |
 | `CheckVersion.hook.ts` | Check for Claude Code updates |
 
 ### PreToolUse Hooks (1)
@@ -309,8 +309,6 @@ See [VERIFY.md](VERIFY.md) for testing and verification procedures.
 ## Related Packs
 
 - **pai-core-install** - Required foundation pack
-- **pai-voice-system** - Uses hooks for voice notification triggers
-- **pai-observability-server** - Receives hook events for dashboard display
 
 ## Changelog
 

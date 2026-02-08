@@ -45,32 +45,10 @@ interface TraitDefinition {
   keywords?: string[];
 }
 
-interface VoiceMapping {
-  traits: string[];
-  voice: string;
-  voice_id?: string;
-  reason?: string;
-}
-
-interface VoiceRegistryEntry {
-  voice_id: string;
-  characteristics: string[];
-  description: string;
-  stability: number;
-  similarity_boost: number;
-}
-
 interface TraitsData {
   expertise: Record<string, TraitDefinition>;
   personality: Record<string, TraitDefinition>;
   approach: Record<string, TraitDefinition>;
-  voice_mappings: {
-    default: string;
-    default_voice_id: string;
-    voice_registry: Record<string, VoiceRegistryEntry>;
-    mappings: VoiceMapping[];
-    fallbacks: Record<string, string>;
-  };
   examples: Record<string, { description: string; traits: string[] }>;
 }
 
@@ -80,9 +58,6 @@ interface ComposedAgent {
   expertise: TraitDefinition[];
   personality: TraitDefinition[];
   approach: TraitDefinition[];
-  voice: string;
-  voiceId: string;
-  voiceReason: string;
   prompt: string;
 }
 
@@ -162,67 +137,6 @@ function inferTraitsFromTask(task: string, traits: TraitsData): string[] {
 }
 
 /**
- * Resolve voice based on trait combination
- */
-function resolveVoice(
-  traitKeys: string[],
-  traits: TraitsData
-): { voice: string; voiceId: string; reason: string } {
-  const mappings = traits.voice_mappings;
-  const registry = mappings.voice_registry || {};
-
-  // Helper to get voice_id from registry or fallback
-  const getVoiceId = (voiceName: string, fallbackId?: string): string => {
-    if (registry[voiceName]?.voice_id) {
-      return registry[voiceName].voice_id;
-    }
-    return fallbackId || mappings.default_voice_id || "";
-  };
-
-  // Check explicit combination mappings first (more specific = higher priority)
-  // Sort by number of matching traits (descending) for best match
-  const matchedMappings = mappings.mappings
-    .map((m) => ({
-      ...m,
-      matchCount: m.traits.filter((t) => traitKeys.includes(t)).length,
-      isFullMatch: m.traits.every((t) => traitKeys.includes(t)),
-    }))
-    .filter((m) => m.isFullMatch)
-    .sort((a, b) => b.matchCount - a.matchCount);
-
-  if (matchedMappings.length > 0) {
-    const best = matchedMappings[0];
-    return {
-      voice: best.voice,
-      voiceId: best.voice_id || getVoiceId(best.voice),
-      reason: best.reason || `Matched traits: ${best.traits.join(", ")}`,
-    };
-  }
-
-  // Check fallbacks by primary trait (first personality trait found)
-  for (const trait of traitKeys) {
-    if (mappings.fallbacks[trait]) {
-      const voiceName = mappings.fallbacks[trait];
-      // Look for corresponding voice_id key (e.g., skeptical_voice_id)
-      const voiceIdKey = `${trait}_voice_id`;
-      const fallbackVoiceId = mappings.fallbacks[voiceIdKey] as string | undefined;
-      return {
-        voice: voiceName,
-        voiceId: fallbackVoiceId || getVoiceId(voiceName),
-        reason: `Fallback for trait: ${trait}`,
-      };
-    }
-  }
-
-  // Default
-  return {
-    voice: mappings.default,
-    voiceId: mappings.default_voice_id || "",
-    reason: "Default voice (no specific mapping matched)",
-  };
-}
-
-/**
  * Compose an agent from traits
  */
 function composeAgent(
@@ -254,9 +168,6 @@ function composeAgent(
   if (approach.length) nameParts.push(approach[0].name);
   const name = nameParts.length > 0 ? nameParts.join(" ") : "Dynamic Agent";
 
-  // Resolve voice
-  const { voice, voiceId, reason: voiceReason } = resolveVoice(traitKeys, traits);
-
   // Render prompt from template
   const template = loadTemplate();
   const prompt = template({
@@ -265,8 +176,6 @@ function composeAgent(
     expertise,
     personality,
     approach,
-    voice,
-    voiceId,
   });
 
   return {
@@ -275,9 +184,6 @@ function composeAgent(
     expertise,
     personality,
     approach,
-    voice,
-    voiceId,
-    voiceReason,
     prompt,
   };
 }
@@ -364,7 +270,6 @@ TRAIT CATEGORIES:
 The factory automatically:
   - Infers relevant traits from task keywords
   - Applies sensible defaults for missing categories
-  - Maps traits to appropriate voice output
   - Generates a complete agent prompt
 `);
     return;
@@ -419,9 +324,6 @@ The factory automatically:
           {
             name: agent.name,
             traits: agent.traits,
-            voice: agent.voice,
-            voice_id: agent.voiceId,
-            voiceReason: agent.voiceReason,
             expertise: agent.expertise.map((e) => e.name),
             personality: agent.personality.map((p) => p.name),
             approach: agent.approach.map((a) => a.name),
@@ -435,9 +337,6 @@ The factory automatically:
 
     case "yaml":
       console.log(`name: "${agent.name}"`);
-      console.log(`voice: "${agent.voice}"`);
-      console.log(`voice_id: "${agent.voiceId}"`);
-      console.log(`voice_reason: "${agent.voiceReason}"`);
       console.log(`traits: [${agent.traits.join(", ")}]`);
       console.log(`expertise: [${agent.expertise.map((e) => e.name).join(", ")}]`);
       console.log(`personality: [${agent.personality.map((p) => p.name).join(", ")}]`);
@@ -451,8 +350,6 @@ The factory automatically:
       console.log(`Expertise:   ${agent.expertise.map((e) => e.name).join(", ") || "General"}`);
       console.log(`Personality: ${agent.personality.map((p) => p.name).join(", ")}`);
       console.log(`Approach:    ${agent.approach.map((a) => a.name).join(", ")}`);
-      console.log(`Voice:       ${agent.voice} [${agent.voiceId}]`);
-      console.log(`             (${agent.voiceReason})`);
       break;
 
     default:

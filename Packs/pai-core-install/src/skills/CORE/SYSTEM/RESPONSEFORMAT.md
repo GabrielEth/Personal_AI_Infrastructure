@@ -13,7 +13,7 @@ This defines the base response format for any PAI implementation. User-specific 
 
 ## Core Principle
 
-Every response MUST include a voice output line (`🗣️ {daidentity.name}:`). This is how the voice server speaks responses aloud. Without it, the response is silent.
+Every response MUST follow the structured format below for consistency and readability.
 
 ---
 
@@ -39,14 +39,12 @@ Every response MUST include a voice output line (`🗣️ {daidentity.name}:`). 
 7. [Seventh key point]
 8. [Eighth key point - conclusion]
 ⭐ RATE (1-10): [LEAVE BLANK - prompts user to rate]
-🗣️ {daidentity.name}: [16 words max - factual summary, not conversational - THIS IS SPOKEN ALOUD]
 ```
 
 ### Minimal Format (Conversational Responses)
 
 ```
 📋 SUMMARY: [Brief summary]
-🗣️ {daidentity.name}: [Your response - THIS IS SPOKEN ALOUD]
 ```
 
 ---
@@ -64,24 +62,6 @@ Every response MUST include a voice output line (`🗣️ {daidentity.name}:`). 
 | ➡️ NEXT | Recommended next steps | Tasks |
 | 📖 STORY EXPLANATION | Numbered list (1-8) | Tasks |
 | ⭐ RATE | Rating prompt for user (AI leaves blank) | Tasks |
-| 🗣️ {daidentity.name} | Spoken output (16 words max, factual not conversational) | **Always** |
-
----
-
-## Voice Output Line
-
-The `🗣️ {daidentity.name}:` line is the only line that gets spoken aloud by the voice server. Everything else is visual.
-
-**Rules:**
-- Maximum 16 words
-- Must be present in every response
-- `{daidentity.name}:` is a label for the voice system—the content is first-person speech
-- **Never refer to yourself in third person.** You ARE the DA. If your name is "TARS", never say "TARS will now..." — say "I will now..."
-- Factual summary of what was done, not conversational phrases
-- WRONG: "Done, Daniel." / "Happy to help!" / "Got it, moving forward."
-- WRONG: "TARS has completed the task." (third-person self-reference)
-- RIGHT: "Updated all four banner modes with robot emoji and repo URL in dark teal."
-- RIGHT: "Fixed the authentication bug. All tests now passing."
 
 ---
 
@@ -129,11 +109,10 @@ Users rate responses by typing a number 1-10:
 
 ## Why This Matters
 
-1. **Voice Integration** - The voice line drives spoken output
-2. **Session History** - CAPTURE ensures learning preservation
-3. **Consistency** - Every response follows same pattern
-4. **Accessibility** - Format makes responses scannable
-5. **Constitutional Compliance** - Core principle
+1. **Session History** - CAPTURE ensures learning preservation
+2. **Consistency** - Every response follows same pattern
+3. **Accessibility** - Format makes responses scannable
+4. **Constitutional Compliance** - Core principle
 
 ---
 
@@ -159,27 +138,22 @@ Users rate responses by typing a number 1-10:
 7. All tests now passing
 8. Ready for deployment
 ⭐ RATE (1-10):
-🗣️ {daidentity.name}: Auth bug fixed by adding null check on token validation. All 47 tests passing.
 ```
 
 ### Conversational Example
 
 ```
-📋 SUMMARY: Confirmed push status
-🗣️ {daidentity.name}: Changes pushed to origin/main. Commit includes auth fix and updated tests.
+📋 SUMMARY: Confirmed push status - changes pushed to origin/main with auth fix and updated tests.
 ```
 
 ---
 
 ## Common Failure Modes
 
-1. **Plain text responses** - No format = silent response
-2. **Missing voice line** - User can't hear the response
-3. **Paragraph in STORY EXPLANATION** - Must be numbered list
-4. **Too many words in voice line** - Keep to 16 max
-5. **Conversational voice lines** - Use factual summaries, not "Done!" or "Happy to help!"
-6. **Self-rating** - AI must NEVER fill in the RATE line. Leave blank for user to rate.
-7. **Third-person self-reference** - Never say "PAI will..." or "[AI name] has..." — use first person ("I will...", "I fixed...")
+1. **Plain text responses** - No format applied
+2. **Paragraph in STORY EXPLANATION** - Must be numbered list
+3. **Self-rating** - AI must NEVER fill in the RATE line. Leave blank for user to rate.
+4. **Third-person self-reference** - Never say "PAI will..." or "[AI name] has..." — use first person ("I will...", "I fixed...")
 
 ---
 

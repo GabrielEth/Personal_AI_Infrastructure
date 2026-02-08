@@ -152,7 +152,6 @@ FirstPrinciples integrates naturally with:
 - Three complete workflows: Deconstruct, Challenge, Reconstruct
 - Constraint classification framework (HARD/SOFT/ASSUMPTION)
 - Integration with PAI skill system
-- Voice notification support
 
 ---
 

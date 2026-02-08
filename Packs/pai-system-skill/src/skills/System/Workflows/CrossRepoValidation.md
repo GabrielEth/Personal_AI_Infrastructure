@@ -6,15 +6,6 @@
 
 ---
 
-## Voice Notification
-
-```bash
-curl -s -X POST http://localhost:8888/notify \
-  -H "Content-Type: application/json" \
-  -d '{"message": "Running cross-repo validation between private and public PAI"}' \
-  > /dev/null 2>&1 &
-```
-
 Running the **CrossRepoValidation** workflow from the **System** skill...
 
 ---
@@ -181,15 +172,6 @@ If ANY critical check fails:
 5. Re-run validation until all checks pass
 
 ---
-
-## Completion Notification
-
-```bash
-curl -s -X POST http://localhost:8888/notify \
-  -H "Content-Type: application/json" \
-  -d '{"message": "Cross-repo validation complete. [STATUS]"}' \
-  > /dev/null 2>&1 &
-```
 
 ---
 

@@ -49,12 +49,6 @@ else
   echo "OK No existing Council skill (clean install)"
 fi
 
-# Check for pai-voice-system (optional but enhances experience)
-if [ -d "$PAI_CHECK/VoiceServer" ]; then
-  echo "OK Voice system installed (council members can speak)"
-else
-  echo "NOTE Voice system not installed (council will be text-only)"
-fi
 ```
 
 ### 1.2 Present Findings
@@ -64,7 +58,7 @@ Tell the user what you found:
 "Here's what I found on your system:
 - pai-core-install: [installed / NOT INSTALLED - REQUIRED]
 - Existing Council skill: [Yes / No]
-- Voice system: [installed / not installed (optional)]"
+"
 ```
 
 **STOP if pai-core-install is not installed.** Tell the user:
@@ -275,15 +269,6 @@ head -20 $PAI_DIR/skills/Council/SKILL.md
 cat $PAI_DIR/skills/Council/CouncilMembers.md
 ```
 
-### Voice not working with council
-
-The council integrates with pai-voice-system if installed. Without it, debates are text-only.
-
-```bash
-# Check if voice server is running
-curl http://localhost:8888/health
-```
-
 ---
 
 ## What's Included
@@ -341,10 +326,3 @@ Then create `PREFERENCES.md` to:
 - Define domain-specific perspectives
 - Modify debate structure
 
-### Voice Integration
-
-If pai-voice-system is installed, council members can speak their positions. Each member uses a distinct voice for clarity.
-
-```
-"Council debate with voice: [topic]"
-```

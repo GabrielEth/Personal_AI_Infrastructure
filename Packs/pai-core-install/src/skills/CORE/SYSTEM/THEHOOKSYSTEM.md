@@ -14,9 +14,8 @@ The PAI hook system is an event-driven automation infrastructure built on Claude
 
 **Core Capabilities:**
 - **Session Management** - Auto-load context, capture summaries, manage state
-- **Voice Notifications** - Text-to-speech announcements for task completions
 - **History Capture** - Automatic work/learning documentation to `~/.claude/MEMORY/`
-- **Multi-Agent Support** - Agent-specific hooks with voice routing
+- **Multi-Agent Support** - Agent-specific hooks with routing
 - **Observability** - Real-time event streaming to dashboard
 - **Tab Titles** - Dynamic terminal tab updates with task context
 
@@ -145,7 +144,6 @@ Claude Code supports the following hook events (from `~/.claude/hooks/lib/observ
 **UpdateTabTitle.hook.ts** - Tab Title + Working State
 - Updates Kitty terminal tab title with task summary + `…` suffix
 - Sets tab to **orange background** (working state)
-- Announces via voice server with context-appropriate gerund
 - See `TERMINALTABS.md` for full state system documentation
 - **Inference:** `import { inference } from '../skills/CORE/Tools/Inference'` → `inference({ level: 'fast' })`
 
@@ -154,7 +152,6 @@ Claude Code supports the following hook events (from `~/.claude/hooks/lib/observ
 ### 4. **Stop**
 **When:** Main agent ({daidentity.name}) completes a response
 **Use Cases:**
-- Voice notifications for task completion
 - Capture work summaries and learnings
 - **Update terminal tab with final state** (color + suffix based on outcome)
 
@@ -178,7 +175,6 @@ Claude Code supports the following hook events (from `~/.claude/hooks/lib/observ
 
 **StopOrchestrator.hook.ts** - Unified Stop Event Handler
 - Single orchestrator that delegates to specialized handlers in `${PAI_DIR}/hooks/handlers/`:
-  - `voice.ts` - Voice TTS delivery (extracts `🗣️ {daidentity.name}:` line, POSTs to voice server)
   - `capture.ts` - Work/learning capture (updates WORK items, writes learnings, sends observability)
   - `tab-state.ts` - Tab color/title state (sets completed/awaiting/error visual state)
 
@@ -188,11 +184,6 @@ Claude Code supports the following hook events (from `~/.claude/hooks/lib/observ
 - Clean orchestration (handlers are pure functions)
 
 **Handler Details:**
-
-`handlers/voice.ts` - Voice TTS Delivery
-- Extracts `🗣️ {daidentity.name}:` line from response
-- POSTs to `http://localhost:8888/notify` with configured voice ID
-- Voice server handles sanitization and TTS conversion
 
 `handlers/capture.ts` - Work/Learning Capture
 - Extracts structured sections (SUMMARY, ANALYSIS, etc.)
@@ -349,8 +340,7 @@ Hooks have access to all environment variables from `~/.claude/settings.json` `"
     "name": "PAI",
     "fullName": "Personal AI",
     "displayName": "PAI",
-    "color": "#3B82F6",
-    "voiceId": "s3TPKV1kjDlVtZbl4Ksh"
+    "color": "#3B82F6"
   },
   "principal": {
     "name": "User",
@@ -362,16 +352,15 @@ Hooks have access to all environment variables from `~/.claude/settings.json` `"
 
 **Using the Identity Module:**
 ```typescript
-import { getIdentity, getPrincipal, getDAName, getPrincipalName, getVoiceId } from './lib/identity';
+import { getIdentity, getPrincipal, getDAName, getPrincipalName } from './lib/identity';
 
 // Get full identity objects
-const identity = getIdentity();    // { name, fullName, displayName, voiceId, color }
+const identity = getIdentity();    // { name, fullName, displayName, color }
 const principal = getPrincipal();  // { name, pronunciation, timezone }
 
 // Convenience functions
 const daName = getDAName();        // "PAI"
 const userName = getPrincipalName(); // "Daniel"
-const voice = getVoiceId();        // "s3TPKV1kjDlVtZbl4Ksh"
 ```
 
 **Why settings.json?**
@@ -426,38 +415,7 @@ All hooks receive JSON data on stdin:
 
 ## Common Patterns
 
-### 1. Voice Notifications
-
-**Pattern:** Extract completion message → Send to voice server
-
-```typescript
-// handlers/voice.ts pattern
-import { getIdentity } from './lib/identity';
-
-const identity = getIdentity();
-const completionMessage = extractCompletionMessage(lastMessage);
-
-const payload = {
-  title: identity.name,
-  message: completionMessage,
-  voice_enabled: true,
-  voice_id: identity.voiceId  // From settings.json
-};
-
-await fetch('http://localhost:8888/notify', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify(payload)
-});
-```
-
-**Agent-Specific Voices:**
-Configure voice IDs in `skills/CORE/SYSTEM/AGENTPERSONALITIES.md` or via environment variables.
-Each agent can have a unique ElevenLabs voice configured.
-
----
-
-### 2. History Capture (UOCS Pattern)
+### 1. History Capture (UOCS Pattern)
 
 **Pattern:** Parse structured response → Save to appropriate history directory
 
@@ -504,11 +462,11 @@ if (isLearning) {
 - `✅ RESULTS:` - Outcomes
 - `📊 STATUS:` - Current state
 - `➡️ NEXT:` - Follow-up actions
-- `🎯 COMPLETED:` - **Voice notification line**
+- `🎯 COMPLETED:` - **Completion summary line**
 
 ---
 
-### 3. Agent Type Detection
+### 2. Agent Type Detection
 
 **Pattern:** Identify which agent is executing → Route appropriately
 
@@ -544,7 +502,7 @@ else if (hookData.cwd && hookData.cwd.includes('/agents/')) {
 
 ---
 
-### 4. Observability Integration
+### 3. Observability Integration
 
 **Pattern:** Send event to dashboard → Fail silently if offline
 
@@ -570,7 +528,7 @@ await sendEventToObservability({
 
 ---
 
-### 5. Tab Title + Color State Architecture
+### 4. Tab Title + Color State Architecture
 
 **Pattern:** Visual state feedback through tab colors and title suffixes
 
@@ -825,29 +783,6 @@ setTimeout(() => {
 
 ---
 
-### Voice Notifications Not Working
-
-**Check:**
-1. Is voice server running? `curl http://localhost:8888/health`
-2. Is voice_id correct? See `skills/CORE/SKILL.md` for mappings
-3. Is message format correct? `{"message":"...", "voice_id":"...", "title":"..."}`
-4. Is ElevenLabs API key in `${PAI_DIR}/.env`?
-
-**Debug:**
-```bash
-# Test voice server directly
-curl -X POST http://localhost:8888/notify \
-  -H "Content-Type: application/json" \
-  -d '{"message":"Test message","voice_id":"[YOUR_VOICE_ID]","title":"Test"}'
-```
-
-**Common Issues:**
-- Wrong voice_id → Silent failure (invalid ID)
-- Voice server offline → Hook continues (graceful failure)
-- No `🎯 COMPLETED:` line → No voice notification extracted
-
----
-
 ### Work Not Capturing
 
 **Check:**
@@ -894,7 +829,6 @@ grep '"event_type":"PostToolUse"' ~/.claude/MEMORY/RAW/$(date +%Y-%m)/$(date +%Y
 **Impact:**
 - Automatic work summaries NOT captured to history (despite Stop hook logic being correct)
 - Learning moments NOT auto-detected
-- Voice notifications from main agent responses NOT sent
 - Manual verification and capture REQUIRED
 
 **Root Cause:**
@@ -1151,7 +1085,6 @@ Hooks in same event execute **sequentially** in order defined in settings.json:
 
 ## Related Documentation
 
-- **Voice System:** `~/.claude/VoiceServer/SKILL.md`
 - **Agent System:** `~/.claude/skills/CORE/SYSTEM/AGENTPERSONALITIES.md`
 - **History/Memory:** `~/.claude/skills/CORE/SYSTEM/MEMORYSYSTEM.md`
 - **Observability Dashboard:** `~/.claude/Observability/`
@@ -1166,7 +1099,7 @@ HOOK LIFECYCLE:
 2. Claude Code writes hook data to stdin
 3. Hook script executes
 4. Hook reads stdin (with timeout)
-5. Hook performs actions (voice, capture, etc.)
+5. Hook performs actions (capture, tab state, etc.)
 6. Hook exits 0 (always succeeds)
 7. Claude Code continues
 
@@ -1185,7 +1118,6 @@ KEY FILES:
 
 STOP HOOKS (main agent completion):
 StopOrchestrator.hook.ts        Unified Stop handler with internal handlers:
-  → handlers/voice.ts           Voice TTS delivery
   → handlers/capture.ts         Session/learning capture + observability
   → handlers/tab-state.ts       Tab color/title state
 
@@ -1212,11 +1144,6 @@ Completed:      Green  #022800  (task done)
 Awaiting:  ?    Teal   #0D6969  (needs input)
 Error:     !    Orange #B35A00  (problem detected)
 Active Tab: Always Dark Blue #002B80 (state colors = inactive only)
-
-VOICE SERVER:
-URL: http://localhost:8888/notify
-Payload: {"message":"...", "voice_id":"...", "title":"..."}
-Configure voice IDs in AgentPersonalities.md
 
 OBSERVABILITY:
 Server: http://localhost:4000
@@ -1267,13 +1194,13 @@ import {
 Identity and principal configuration from settings.json.
 
 ```typescript
-import { getIdentity, getPrincipal, getDAName, getPrincipalName, getVoiceId } from './lib/identity';
+import { getIdentity, getPrincipal, getDAName, getPrincipalName } from './lib/identity';
 
-const identity = getIdentity();    // { name, fullName, displayName, voiceId, color }
+const identity = getIdentity();    // { name, fullName, displayName, color }
 const principal = getPrincipal();  // { name, pronunciation, timezone }
 ```
 
-**Used by:** handlers/voice.ts, ImplicitSentimentCapture, handlers/capture.ts, handlers/tab-state.ts
+**Used by:** ImplicitSentimentCapture, handlers/capture.ts, handlers/tab-state.ts
 
 ### `skills/CORE/Tools/Inference.ts`
 Unified AI inference with three run levels.

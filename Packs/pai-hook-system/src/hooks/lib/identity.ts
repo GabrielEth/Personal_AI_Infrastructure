@@ -17,7 +17,6 @@ const DEFAULT_IDENTITY = {
   name: 'PAI',
   fullName: 'Personal AI',
   displayName: 'PAI',
-  voiceId: '',
   color: '#3B82F6',
 };
 
@@ -31,7 +30,6 @@ export interface Identity {
   name: string;
   fullName: string;
   displayName: string;
-  voiceId: string;
   color: string;
 }
 
@@ -85,7 +83,6 @@ export function getIdentity(): Identity {
     name: daidentity.name || envDA || DEFAULT_IDENTITY.name,
     fullName: daidentity.fullName || daidentity.name || envDA || DEFAULT_IDENTITY.fullName,
     displayName: daidentity.displayName || daidentity.name || envDA || DEFAULT_IDENTITY.displayName,
-    voiceId: daidentity.voiceId || DEFAULT_IDENTITY.voiceId,
     color: daidentity.color || DEFAULT_IDENTITY.color,
   };
 }
@@ -126,13 +123,6 @@ export function getDAName(): string {
  */
 export function getPrincipalName(): string {
   return getPrincipal().name;
-}
-
-/**
- * Get just the voice ID (convenience function)
- */
-export function getVoiceId(): string {
-  return getIdentity().voiceId;
 }
 
 /**

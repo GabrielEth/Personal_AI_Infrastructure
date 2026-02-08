@@ -8,11 +8,11 @@
 
 PAI has three agent systems that serve different purposes. Confusing them causes routing failures.
 
-| System | What It Is | When to Use | Has Unique Voice? |
-|--------|-----------|-------------|-------------------|
-| **Task Tool Subagent Types** | Pre-built agents in Claude Code (Architect, Designer, Engineer, Intern, Explore, etc.) | Internal workflow use ONLY | No |
-| **Named Agents** | Persistent identities with backstories and ElevenLabs voices (Serena, Marcus, Rook, etc.) | Recurring work, voice output, relationships | Yes |
-| **Custom Agents** | Dynamic agents composed via AgentFactory from traits | When user says "custom agents" | Yes (trait-mapped) |
+| System | What It Is | When to Use | Notes |
+|--------|-----------|-------------|-------|
+| **Task Tool Subagent Types** | Pre-built agents in Claude Code (Architect, Designer, Engineer, Intern, Explore, etc.) | Internal workflow use ONLY | N/A |
+| **Named Agents** | Persistent identities with backstories (Serena, Marcus, Rook, etc.) | Recurring work, relationships | N/A |
+| **Custom Agents** | Dynamic agents composed via AgentFactory from traits | When user says "custom agents" | N/A |
 
 ---
 
@@ -31,7 +31,7 @@ Skill("Agents")  // → CreateCustomAgent workflow
 // OR follow the workflow directly:
 // 1. Run AgentFactory with different trait combinations
 // 2. Launch agents with the generated prompts
-// 3. Each gets unique personality + voice
+// 3. Each gets unique personality
 ```
 
 ---
@@ -53,9 +53,8 @@ When user requests custom agents:
 
 1. **Invoke Agents skill** via `Skill("Agents")` or follow CreateCustomAgent workflow
 2. **Run AgentFactory** for EACH agent with DIFFERENT trait combinations
-3. **Extract prompt and voice_id** from AgentFactory output
+3. **Extract prompt** from AgentFactory output
 4. **Launch agents** with Task tool using the composed prompts
-5. **Voice results** using each agent's unique voice_id
 
 ```bash
 # Example: 3 custom research agents
@@ -84,30 +83,30 @@ These are pre-built agents in the Claude Code Task tool. They are for **internal
 | `GeminiResearcher` | Gemini-based research | Research skill workflows |
 | `GrokResearcher` | Grok-based research | Research skill workflows |
 
-**These do NOT have unique voices or AgentFactory composition.**
+**These do NOT use AgentFactory composition.**
 
 ---
 
 ## Named Agents (Persistent Identities)
 
-Named agents have rich backstories, personality traits, and mapped ElevenLabs voices. They provide relationship continuity across sessions.
+Named agents have rich backstories and personality traits. They provide relationship continuity across sessions.
 
-| Agent | Role | Voice | Use For |
-|-------|------|-------|---------|
-| Serena Blackwood | Architect | Premium UK Female | Long-term architecture decisions |
-| Marcus Webb | Engineer | Premium Male | Strategic technical leadership |
-| Rook Blackburn | Pentester | Enhanced UK Male | Security testing with personality |
-| Dev Patel | Intern | High-energy genius | Parallel grunt work |
-| Ava Sterling | Claude Researcher | Premium US Female | Strategic research |
-| Alex Rivera | Gemini Researcher | Multi-perspective | Comprehensive analysis |
+| Agent | Role | Use For |
+|-------|------|---------|
+| Serena Blackwood | Architect | Long-term architecture decisions |
+| Marcus Webb | Engineer | Strategic technical leadership |
+| Rook Blackburn | Pentester | Security testing with personality |
+| Dev Patel | Intern | Parallel grunt work |
+| Ava Sterling | Claude Researcher | Strategic research |
+| Alex Rivera | Gemini Researcher | Comprehensive analysis |
 
-**Full backstories and voice settings:** `skills/Agents/AgentPersonalities.md`
+**Full backstories:** `skills/Agents/AgentPersonalities.md`
 
 ---
 
 ## Custom Agents (Dynamic Composition)
 
-Custom agents are composed on-the-fly from traits using AgentFactory. Each unique trait combination maps to a different ElevenLabs voice.
+Custom agents are composed on-the-fly from traits using AgentFactory. Each unique trait combination creates a distinct personality.
 
 ### Trait Categories
 
@@ -120,16 +119,7 @@ Custom agents are composed on-the-fly from traits using AgentFactory. Each uniqu
 **Approach** (work style):
 `thorough`, `rapid`, `systematic`, `exploratory`, `comparative`, `synthesizing`, `adversarial`, `consultative`
 
-### Voice Mapping Examples
-
-| Trait Combo | Voice | Why |
-|-------------|-------|-----|
-| contrarian + skeptical | Clyde (gravelly) | Challenging intensity |
-| enthusiastic + creative | Jeremy (energetic) | High-energy creativity |
-| security + adversarial | Callum (edgy) | Hacker character |
-| analytical + meticulous | Charlotte (sophisticated) | Precision analysis |
-
-**Full trait definitions and voice mappings:** `skills/Agents/Data/Traits.yaml`
+**Full trait definitions:** `skills/Agents/Data/Traits.yaml`
 
 ---
 
@@ -168,7 +158,7 @@ Task({
 
 - **Agents Skill:** `skills/Agents/SKILL.md` — Custom agent creation, workflows
 - **AgentFactory:** `skills/Agents/Tools/AgentFactory.ts` — Dynamic composition tool
-- **Traits:** `skills/Agents/Data/Traits.yaml` — Trait definitions and voice mappings
+- **Traits:** `skills/Agents/Data/Traits.yaml` — Trait definitions
 - **Agent Personalities:** `skills/Agents/AgentPersonalities.md` — Named agent backstories
 - **Delegation Workflow:** `skills/CORE/Workflows/Delegation.md` — Delegation patterns
 

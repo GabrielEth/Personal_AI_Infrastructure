@@ -117,7 +117,7 @@ These define user-specific preferences. If the directory does not exist, proceed
 ├── Agents/                      # Agents skill customizations
 │   ├── EXTEND.yaml              # Extension manifest
 │   ├── PREFERENCES.md           # Named agent summary
-│   └── VoiceConfig.json         # ElevenLabs voice mappings
+│   └── AgentConfig.json         # Agent configuration
 ├── FrontendDesign/              # FrontendDesign customizations
 │   ├── EXTEND.yaml              # Extension manifest
 │   └── PREFERENCES.md           # Design tokens, palette
@@ -155,7 +155,7 @@ description: "What this customization adds"
 | Content Type | Location | Example |
 |--------------|----------|---------|
 | User preferences | `SKILLCUSTOMIZATIONS/{Skill}/PREFERENCES.md` | Art style, color palette |
-| Named configurations | `SKILLCUSTOMIZATIONS/{Skill}/[name].md` | Character specs, voice configs |
+| Named configurations | `SKILLCUSTOMIZATIONS/{Skill}/[name].md` | Character specs, agent configs |
 | Skill logic | `skills/{Skill}/SKILL.md` | Generic, shareable skill code |
 
 ### Creating a Customization
@@ -233,28 +233,9 @@ science_cycle_time: meso
 
 [Brief description of what the skill does]
 
-## Voice Notification
-
-**When executing a workflow, do BOTH:**
-
-1. **Send voice notification**:
-   ```bash
-   curl -s -X POST http://localhost:8888/notify \
-     -H "Content-Type: application/json" \
-     -d '{"message": "Running the WORKFLOWNAME workflow from the SKILLNAME skill"}' \
-     > /dev/null 2>&1 &
-   ```
-
-2. **Output text notification**:
-   ```
-   Running the **WorkflowName** workflow from the **SkillName** skill...
-   ```
-
-**Full documentation:** `~/.claude/skills/CORE/SYSTEM/THENOTIFICATIONSYSTEM.md`
-
 ## Workflow Routing
 
-The notification announces workflow execution. The routing table tells Claude which workflow to execute:
+The routing table tells Claude which workflow to execute:
 
 | Workflow | Trigger | File |
 |----------|---------|------|
@@ -592,25 +573,6 @@ description: Complete blog workflow. USE WHEN user mentions doing anything with 
 
 Complete blog workflow.
 
-## Voice Notification
-
-**When executing a workflow, do BOTH:**
-
-1. **Send voice notification**:
-   ```bash
-   curl -s -X POST http://localhost:8888/notify \
-     -H "Content-Type: application/json" \
-     -d '{"message": "Running the WORKFLOWNAME workflow from the Blogging skill"}' \
-     > /dev/null 2>&1 &
-   ```
-
-2. **Output text notification**:
-   ```
-   Running the **WorkflowName** workflow from the **Blogging** skill...
-   ```
-
-**Full documentation:** `~/.claude/skills/CORE/SYSTEM/THENOTIFICATIONSYSTEM.md`
-
 ## Core Paths
 
 - **Blog posts:** `~/Projects/Website/cms/blog/`
@@ -698,29 +660,29 @@ Skills use a **flat hierarchy** - no deep nesting of subdirectories.
 
 **Maximum depth:** `skills/SkillName/Category/`
 
-### ✅ ALLOWED (2 levels max)
+### Allowed (2 levels max)
 
 ```
-skills/OSINT/SKILL.md                           # Skill root
-skills/OSINT/Workflows/CompanyDueDiligence.md   # Workflow - one level deep
-skills/OSINT/Tools/Analyze.ts                   # Tool - one level deep
-skills/OSINT/CompanyTools.md                    # Context file - in root
-skills/OSINT/Examples.md                        # Context file - in root
-skills/Prompting/BeCreative.md                  # Templates in Prompting root
-skills/Prompting/StoryExplanation.md            # Templates in Prompting root
-skills/PromptInjection/DefenseMechanisms.md     # Context file - in root
-skills/PromptInjection/QuickStartGuide.md       # Context file - in root
+skills/Research/SKILL.md                           # Skill root
+skills/Research/Workflows/CompanyDueDiligence.md   # Workflow - one level deep
+skills/Research/Tools/Analyze.ts                   # Tool - one level deep
+skills/Research/CompanyTools.md                    # Context file - in root
+skills/Research/Examples.md                        # Context file - in root
+skills/Prompting/BeCreative.md                     # Templates in Prompting root
+skills/Prompting/StoryExplanation.md               # Templates in Prompting root
+skills/PromptInjection/DefenseMechanisms.md        # Context file - in root
+skills/PromptInjection/QuickStartGuide.md          # Context file - in root
 ```
 
-### ❌ FORBIDDEN (Too deep OR wrong location)
+### Forbidden (Too deep OR wrong location)
 
 ```
-skills/OSINT/Resources/Examples.md              # Context files go in root, NOT Resources/
-skills/OSINT/Docs/CompanyTools.md               # Context files go in root, NOT Docs/
-skills/OSINT/Templates/Primitives/Extract.md    # THREE levels - NO
-skills/OSINT/Workflows/Company/DueDiligence.md  # THREE levels - NO (use CompanyDueDiligence.md instead)
-skills/Prompting/Templates/BeCreative.md        # Templates in root, NOT Templates/ subdirectory
-skills/Research/Workflows/Analysis/Deep.md      # THREE levels - NO
+skills/Research/Resources/Examples.md              # Context files go in root, NOT Resources/
+skills/Research/Docs/CompanyTools.md               # Context files go in root, NOT Docs/
+skills/Research/Templates/Primitives/Extract.md    # THREE levels - NO
+skills/Research/Workflows/Company/DueDiligence.md  # THREE levels - NO (use CompanyDueDiligence.md instead)
+skills/Prompting/Templates/BeCreative.md           # Templates in root, NOT Templates/ subdirectory
+skills/Research/Workflows/Analysis/Deep.md         # THREE levels - NO
 ```
 
 ### Why Flat Structure
@@ -908,7 +870,7 @@ This pattern (inspired by indydevdan's variable-centric approach) enables workfl
 | **Mode flags** | `--fast`, `--thorough`, `--dry-run` | Execution behavior |
 | **Output flags** | `--format json`, `--quiet`, `--verbose` | Output control |
 | **Resource flags** | `--model haiku`, `--model opus` | Model/resource selection |
-| **Post-process flags** | `--thumbnail`, `--remove-bg` | Additional processing |
+| **Post-process flags** | `--thumbnail` | Additional processing |
 
 **Example: Well-Configured Tool**
 
@@ -923,7 +885,6 @@ bun Generate.ts \
   --size 2K \                  # Output configuration
   --aspect-ratio 16:9 \
   --thumbnail \                # Post-processing
-  --remove-bg \
   --output /tmp/header.png
 ```
 
@@ -975,10 +936,9 @@ bun Generate.ts \
 When a skill is invoked, follow the SKILL.md instructions step-by-step rather than analyzing the skill structure.
 
 **The pattern:**
-1. Execute voice notification (if present)
-2. Use the routing table to find the right workflow
-3. Follow the workflow instructions in order
-4. Your behavior should match the Examples section
+1. Use the routing table to find the right workflow
+2. Follow the workflow instructions in order
+3. Your behavior should match the Examples section
 
 Think of SKILL.md as a script - it already encodes "how to do X" so you can follow it directly.
 
@@ -1003,7 +963,7 @@ Explicit output specs reduce variability and increase actionability.
 
 **When to Add Output Requirements:**
 - Content generation skills (blogging, xpost, newsletter)
-- Analysis skills (research, upgrade, OSINT)
+- Analysis skills (research, upgrade)
 - Code generation skills (development, createcli)
 - Any skill where output format matters
 

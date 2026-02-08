@@ -50,12 +50,6 @@ else
   echo "No existing FirstPrinciples skill (clean install)"
 fi
 
-# Check for pai-voice-system (optional)
-if [ -d "$PAI_CHECK/VoiceServer" ]; then
-  echo "pai-voice-system is installed (voice features available)"
-else
-  echo "pai-voice-system not installed (voice notifications unavailable)"
-fi
 ```
 
 ### 1.2 Present Findings
@@ -65,7 +59,7 @@ Tell the user what you found:
 "Here's what I found on your system:
 - CORE skill: [installed / NOT INSTALLED - REQUIRED]
 - Existing FirstPrinciples skill: [Yes at path / No]
-- pai-voice-system: [installed / not installed (optional)]"
+"
 ```
 
 **STOP if CORE skill is not installed.** Tell the user:

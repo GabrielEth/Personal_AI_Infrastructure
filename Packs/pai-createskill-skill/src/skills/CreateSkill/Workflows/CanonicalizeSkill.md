@@ -125,10 +125,10 @@ FIX: Tools/Helper.ts (or delete if not needed)
 **Example:**
 ```bash
 # Before (3 levels - WRONG)
-skills/OSINT/Workflows/Company/DueDiligence.md
+skills/Research/Workflows/Deep/ExtractAlpha.md
 
 # After (2 levels - CORRECT)
-skills/OSINT/Workflows/CompanyDueDiligence.md
+skills/Research/Workflows/ExtractAlpha.md
 ```
 
 **Rule:** If you need to organize many files, use clear filenames NOT subdirectories.

@@ -8,14 +8,14 @@ Comprehensive guide to delegating tasks to agents in the hybrid agent system.
 
 | User Says | Action | Tool |
 |-------------|--------|------|
-| "**custom agents**", "spin up **custom** agents" | Use **AgentFactory** to generate unique agents with distinct voices | `bun run AgentFactory.ts` |
+| "**custom agents**", "spin up **custom** agents" | Use **AgentFactory** to generate unique agents with distinct personalities | `bun run AgentFactory.ts` |
 | "spin up agents", "launch agents", "bunch of agents" | Use **generic Intern** agents for parallel grunt work | `Task(subagent_type="Intern")` |
 | "interns", "use interns" | Use **Intern** agents | `Task(subagent_type="Intern")` |
 | "use Ava", "get Remy to", "[named agent]" | Use the **named agent** directly | `Task(subagent_type="PerplexityResearcher")` |
 
 **The word "custom" is the KEY differentiator:**
-- "custom agents" → AgentFactory (unique prompts + unique voices)
-- "agents" (no "custom") → Interns (same voice, parallel work)
+- "custom agents" → AgentFactory (unique prompts + unique personalities)
+- "agents" (no "custom") → Interns (parallel work)
 
 ### 🚫 FORBIDDEN — Never Do This
 
@@ -28,7 +28,7 @@ Task({ subagent_type: "Designer", prompt: "..." })
 Task({ subagent_type: "Engineer", prompt: "..." })
 ```
 
-Task tool subagent_types (Architect, Designer, Engineer, etc.) are pre-built workflow agents. They do NOT have unique voices or AgentFactory composition. They are for internal workflow use only.
+Task tool subagent_types (Architect, Designer, Engineer, etc.) are pre-built workflow agents. They do NOT use AgentFactory composition. They are for internal workflow use only.
 
 **For custom agents, invoke the Agents skill** → `Skill("Agents")` or follow CreateCustomAgent workflow.
 
@@ -62,7 +62,7 @@ The system supports two types of agents:
 
 | Type | Definition | Best For |
 |------|------------|----------|
-| **Named Agents** | Persistent identities with backstories and voice mappings | Recurring work, voice output, relationship continuity |
+| **Named Agents** | Persistent identities with backstories | Recurring work, relationship continuity |
 | **Dynamic Agents** | Task-specific specialists composed from traits | One-off tasks, novel combinations, parallel grunt work |
 
 **I decide which to use based on your request.** You don't need to specify.
@@ -293,11 +293,11 @@ TaskOutput({ agentId: "abc123", block: true })
 
 | Situation | Choice | Reason |
 |-----------|--------|--------|
-| "Research AI news" | Named (Ava/Perplexity) | Standard research, voice needed |
+| "Research AI news" | Named (Ava/Perplexity) | Standard research |
 | "Review this contract for security risks" | Dynamic (legal+security+cautious) | Novel combination |
 | "Explore the codebase" | Named (Explore agent) | Built for this |
 | "Create 5 parallel researchers" | Dynamic (research+rapid) | Grunt work, no personality needed |
-| "Red team this idea" | Named (Johannes) OR Dynamic | Depends on whether voice needed |
+| "Red team this idea" | Named (Johannes) OR Dynamic | Depends on complexity |
 | "Strategic architecture review" | Named (Serena) | Deep expertise, relationship |
 
 ### Foreground vs Background

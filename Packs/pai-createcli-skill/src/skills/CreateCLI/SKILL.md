@@ -19,25 +19,6 @@ Generate production-ready TypeScript CLIs with comprehensive documentation, type
 ---
 
 
-## Voice Notification
-
-**When executing a workflow, do BOTH:**
-
-1. **Send voice notification**:
-   ```bash
-   curl -s -X POST http://localhost:8888/notify \
-     -H "Content-Type: application/json" \
-     -d '{"message": "Running the WORKFLOWNAME workflow from the CreateCLI skill"}' \
-     > /dev/null 2>&1 &
-   ```
-
-2. **Output text notification**:
-   ```
-   Running the **WorkflowName** workflow from the **CreateCLI** skill...
-   ```
-
-**Full documentation:** `~/.claude/skills/CORE/SkillNotifications.md`
-
 ## Workflow Routing
 
 Route to the appropriate workflow based on the request.
@@ -192,7 +173,7 @@ Every generated CLI follows:
 ### Reference Documentation
 - `framework-comparison.md` - Manual vs Commander vs oclif (with research)
 - `patterns.md` - Common CLI patterns (from llcli analysis)
-- `testing-strategies.md` - CLI testing approaches (Jest, Vitest, Playwright)
+- `testing-strategies.md` - CLI testing approaches (Jest, Vitest)
 - `distribution.md` - Publishing strategies (npm, standalone binaries)
 - `typescript-patterns.md` - Type safety patterns (from tsx, vite, bun research)
 
@@ -357,7 +338,6 @@ The `llcli` CLI (Limitless.ai API) proves this pattern works:
 ## RELATED SKILLS
 
 - **development** - For complex feature development (not CLI-specific)
-- **mcp** - For web scraping CLIs (Bright Data, Apify wrappers)
 - **lifelog** - Example of skill using llcli
 
 ---

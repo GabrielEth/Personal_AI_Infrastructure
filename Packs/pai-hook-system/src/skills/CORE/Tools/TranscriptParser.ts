@@ -144,7 +144,7 @@ export function extractVoiceCompletion(text: string): string {
         let completed = lastMatch[1].trim();
         // Clean up agent tags
         completed = completed.replace(/^\[AGENT:\w+\]\s*/i, '');
-        // Voice server handles sanitization
+        // Downstream consumers handle sanitization
         return completed.trim();
       }
     }

@@ -36,11 +36,11 @@ This Pack provides a complete prompt engineering system:
 - Fabric pattern integration (248 reusable prompts)
 
 **Template System**
-- Five core primitives: Roster, Voice, Structure, Briefing, Gate
+- Four core primitives: Roster, Structure, Briefing, Gate
 - Five eval templates: Judge, Rubric, Comparison, Report, TestCase
 - Handlebars-based templating (Anthropic's official syntax)
 - Data-driven prompt generation from YAML
-- Pre-configured data files (Agents, ValidationGates, VoicePresets)
+- Pre-configured data files (Agents, ValidationGates)
 - CLI tools for rendering and validation
 
 **Core Philosophy:** Find the smallest possible set of high-signal tokens that maximize the likelihood of desired outcomes.
@@ -59,9 +59,8 @@ pai-prompting-skill/
             ├── Standards.md     # Claude 4.x best practices
             ├── Templates/
             │   ├── README.md    # Template system docs
-            │   ├── Primitives/  # Core templates (5 files)
+            │   ├── Primitives/  # Core templates (4 files)
             │   │   ├── Roster.hbs
-            │   │   ├── Voice.hbs
             │   │   ├── Structure.hbs
             │   │   ├── Briefing.hbs
             │   │   └── Gate.hbs
@@ -73,8 +72,7 @@ pai-prompting-skill/
             │   │   └── TestCase.hbs
             │   ├── Data/        # Pre-configured YAML data
             │   │   ├── Agents.yaml
-            │   │   ├── ValidationGates.yaml
-            │   │   └── VoicePresets.yaml
+            │   │   └── ValidationGates.yaml
             │   └── Tools/       # Template CLI tools
             │       ├── RenderTemplate.ts
             │       ├── ValidateTemplate.ts
@@ -93,8 +91,7 @@ The templating system reduces duplication significantly:
 | Agent Briefings | 6,400 tokens | 1,900 tokens | 70% |
 | SKILL.md Files | 20,750 tokens | 8,300 tokens | 60% |
 | Workflow Steps | 7,500 tokens | 3,000 tokens | 60% |
-| Voice Notifications | 6,225 tokens | 725 tokens | 88% |
-| **TOTAL** | ~53,000 | ~18,000 | **65%** |
+| **TOTAL** | ~47,000 | ~17,000 | **64%** |
 
 ## The Problem This Solves
 
@@ -124,12 +121,11 @@ Prompt engineering research shows:
 
 This isn't opinion—it's validated by 1,500+ academic papers and production systems.
 
-## Five Core Primitives
+## Four Core Primitives
 
 | Primitive | Purpose | Use Case |
 |-----------|---------|----------|
 | **ROSTER** | Data-driven definitions | Agent personalities, skill listings |
-| **VOICE** | Personality calibration | Voice parameters, trait settings |
 | **STRUCTURE** | Workflow patterns | Phased analysis, debate rounds |
 | **BRIEFING** | Agent context handoff | Task delegation, research queries |
 | **GATE** | Validation checklists | Quality checks, completion criteria |

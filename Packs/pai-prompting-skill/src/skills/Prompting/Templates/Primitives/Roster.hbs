@@ -6,7 +6,6 @@
   Use Cases:
   - Agent personality rosters
   - Skill directory listings
-  - Voice configuration tables
   - Team composition overviews
 
   Input Data Structure (agents):
@@ -24,6 +23,7 @@
         style: string
       backstory: string (optional)
   ```
+
 
   Usage:
   bun run RenderTemplate.ts -t Primitives/Roster.hbs -d Data/Agents.yaml -o Compiled/AgentRoster.md
@@ -67,18 +67,6 @@
 {{/if}}
 {{/if}}
 
-{{#if voice}}
-### Voice Configuration
-
-| Setting | Value |
-|---------|-------|
-| Voice ID | `{{voice.voice_id}}` |
-| Voice Name | {{voice.voice_name}} |
-| Rate (WPM) | {{voice.rate_wpm}} |
-| Stability | {{voice.stability}} |
-| Similarity | {{voice.similarity_boost}} |
-{{/if}}
-
 {{#if backstory}}
 ### Backstory
 
@@ -90,11 +78,11 @@
 {{/each}}
 
 {{#if archetypes}}
-## Voice Archetypes
+## Archetypes
 
-| Archetype | Stability Range | Rate Range | Description |
-|-----------|-----------------|------------|-------------|
+| Archetype | Description |
+|-----------|-------------|
 {{#each archetypes}}
-| **{{titlecase @key}}** | {{stability_range.[0]}} - {{stability_range.[1]}} | {{rate_range.[0]}} - {{rate_range.[1]}} wpm | {{description}} |
+| **{{titlecase @key}}** | {{description}} |
 {{/each}}
 {{/if}}

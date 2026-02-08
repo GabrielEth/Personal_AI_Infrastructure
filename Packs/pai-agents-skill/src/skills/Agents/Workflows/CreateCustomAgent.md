@@ -1,6 +1,6 @@
 # CreateCustomAgent Workflow
 
-**Creates custom agents with unique personalities and voice IDs using AgentFactory.**
+**Creates custom agents with unique personalities using AgentFactory.**
 
 ## When to Use
 
@@ -23,7 +23,7 @@ Extract from {principal.name}'s request:
 
 ### Step 2: For EACH Agent, Run AgentFactory with DIFFERENT Traits
 
-**CRITICAL: Each agent MUST have different trait combinations to get unique voices.**
+**CRITICAL: Each agent MUST have different trait combinations to get unique personalities.**
 
 ```bash
 # Example for 3 custom research agents:
@@ -47,14 +47,12 @@ bun run ~/.claude/skills/Agents/Tools/AgentFactory.ts \
   --output json
 ```
 
-### Step 3: Extract Prompt and Voice ID from Each
+### Step 3: Extract Prompt from Each
 
 AgentFactory returns JSON with:
 ```json
 {
   "name": "Research Enthusiastic Explorer",
-  "voice": "Jeremy",
-  "voice_id": "bVMeCyTHy58xNoL34h3p",
   "traits": ["research", "enthusiastic", "exploratory"],
   "prompt": "# Dynamic Agent: Research Enthusiastic Explorer\n\nYou are a specialized agent..."
 }
@@ -86,25 +84,7 @@ Task({
 })
 ```
 
-**Note:** Store the voice_id from AgentFactory output - you'll need it to voice the agent's results.
-
-### Step 5: Voice Agent Results
-
-**CRITICAL: The parent session voices agent output, not the agents themselves.**
-
-After receiving agent results:
-1. Extract the `🎯 COMPLETED:` line from each agent's output
-2. Send voice notification using that agent's voice_id:
-
-```bash
-curl -X POST http://localhost:8888/notify \
-  -H "Content-Type: application/json" \
-  -d '{"message":"<COMPLETED line content>","voice_id":"<agent_voice_id>","title":"<agent_name>"}'
-```
-
-This is more reliable than having agents voice themselves (they often skip curl commands).
-
-### Step 6: Spotcheck (Optional but Recommended)
+### Step 5: Spotcheck (Optional but Recommended)
 
 After all agents complete, launch one more to verify consistency:
 
@@ -119,24 +99,24 @@ Task({
 
 ## Trait Variation Strategies
 
-When creating multiple custom agents, vary traits to ensure different voices:
+When creating multiple custom agents, vary traits to ensure different perspectives:
 
 **For Research Tasks:**
-- Agent 1: research + enthusiastic + exploratory → Jeremy (energetic)
-- Agent 2: research + skeptical + thorough → George (intellectual)
-- Agent 3: research + analytical + systematic → Drew (professional)
-- Agent 4: research + creative + bold → Fin (charismatic)
-- Agent 5: research + empathetic + synthesizing → Thomas (gentle)
+- Agent 1: research + enthusiastic + exploratory (energetic)
+- Agent 2: research + skeptical + thorough (intellectual)
+- Agent 3: research + analytical + systematic (professional)
+- Agent 4: research + creative + bold (charismatic)
+- Agent 5: research + empathetic + synthesizing (gentle)
 
 **For Security Analysis:**
-- Agent 1: security + adversarial + bold → Callum (edgy hacker)
-- Agent 2: security + skeptical + meticulous → Sam (gritty authentic)
-- Agent 3: security + cautious + systematic → Bill (trustworthy)
+- Agent 1: security + adversarial + bold (offensive)
+- Agent 2: security + skeptical + meticulous (analytical)
+- Agent 3: security + cautious + systematic (defensive)
 
 **For Business Strategy:**
-- Agent 1: business + bold + rapid → Domi (assertive CEO)
-- Agent 2: business + analytical + comparative → Drew (balanced news)
-- Agent 3: business + pragmatic + consultative → Charlie (casual laid-back)
+- Agent 1: business + bold + rapid (assertive)
+- Agent 2: business + analytical + comparative (balanced)
+- Agent 3: business + pragmatic + consultative (advisory)
 
 ## Model Selection
 
@@ -156,46 +136,46 @@ When creating multiple custom agents, vary traits to ensure different voices:
 ```bash
 # Agent 1 - Climate Science Enthusiast
 bun run AgentFactory.ts --traits "research,enthusiastic,thorough" --task "Analyze climate data patterns" --output json
-# Returns: voice="Jeremy", voice_id="bVMeCyTHy58xNoL34h3p"
+# Returns: enthusiastic research agent
 
 # Agent 2 - Skeptical Data Analyst
 bun run AgentFactory.ts --traits "data,skeptical,systematic" --task "Analyze climate data patterns" --output json
-# Returns: voice="Daniel", voice_id="onwK4e9ZLuTAKqWW03F9"
+# Returns: skeptical data agent
 
 # Agent 3 - Creative Pattern Finder
 bun run AgentFactory.ts --traits "data,creative,exploratory" --task "Analyze climate data patterns" --output json
-# Returns: voice="Freya", voice_id="jsCqWAovK2LkecY7zXl4"
+# Returns: creative data agent
 
 # Agent 4 - Meticulous Validator
 bun run AgentFactory.ts --traits "research,meticulous,comparative" --task "Analyze climate data patterns" --output json
-# Returns: voice="Charlotte", voice_id="XB0fDUnXU5powFXDhCwa"
+# Returns: meticulous research agent
 
 # Agent 5 - Synthesizing Strategist
 bun run AgentFactory.ts --traits "research,analytical,synthesizing" --task "Analyze climate data patterns" --output json
-# Returns: voice="Charlotte", voice_id="XB0fDUnXU5powFXDhCwa"
+# Returns: analytical research agent
 
 # Launch all 5 in parallel (single message, 5 Task calls)
-# Each agent has unique personality and voice
+# Each agent has unique personality
 ```
 
-**Result:** 5 distinct agents with different analytical approaches and unique voices analyzing the data from different perspectives.
+**Result:** 5 distinct agents with different analytical approaches analyzing the data from different perspectives.
 
 ## Common Mistakes to Avoid
 
 **❌ WRONG: Using same traits for all agents**
 ```bash
-# All agents get same voice!
+# All agents get same personality!
 bun run AgentFactory.ts --traits "research,analytical" # Agent 1
-bun run AgentFactory.ts --traits "research,analytical" # Agent 2 (same voice!)
-bun run AgentFactory.ts --traits "research,analytical" # Agent 3 (same voice!)
+bun run AgentFactory.ts --traits "research,analytical" # Agent 2 (same!)
+bun run AgentFactory.ts --traits "research,analytical" # Agent 3 (same!)
 ```
 
-**✅ RIGHT: Varying traits for unique voices**
+**✅ RIGHT: Varying traits for unique personalities**
 ```bash
-# Each agent gets different voice
-bun run AgentFactory.ts --traits "research,enthusiastic,exploratory"  # Jeremy
-bun run AgentFactory.ts --traits "research,skeptical,systematic"      # George
-bun run AgentFactory.ts --traits "research,creative,synthesizing"     # Freya
+# Each agent gets different personality
+bun run AgentFactory.ts --traits "research,enthusiastic,exploratory"
+bun run AgentFactory.ts --traits "research,skeptical,systematic"
+bun run AgentFactory.ts --traits "research,creative,synthesizing"
 ```
 
 **❌ WRONG: Launching agents sequentially**
@@ -214,26 +194,9 @@ Task({ ... })  // Agent 2
 Task({ ... })  // Agent 3
 ```
 
-## Voice Assignment Logic
+## Trait Composition Logic
 
-AgentFactory automatically maps trait combinations to voices:
-
-1. **Exact combination matches** (highest priority)
-   - `["contrarian", "skeptical"]` → Clyde (gravelly intensity)
-   - `["enthusiastic", "creative"]` → Jeremy (high energy)
-
-2. **Personality fallbacks** (medium priority)
-   - `skeptical` → George (academic warmth)
-   - `enthusiastic` → Jeremy (excited)
-   - `bold` → Domi (assertive CEO)
-
-3. **Expertise fallbacks** (low priority)
-   - `security` → Callum (hacker character)
-   - `legal` → Alice (news authority)
-   - `research` → Adam (narratorial)
-
-4. **Default** (no matches)
-   - Daniel (BBC anchor authority)
+AgentFactory automatically composes agent personalities from trait combinations. The more varied the traits across agents, the more diverse their analytical perspectives will be.
 
 ## Related Workflows
 
@@ -245,4 +208,4 @@ AgentFactory automatically maps trait combinations to voices:
 - Trait definitions: `~/.claude/skills/Agents/Data/Traits.yaml`
 - Agent template: `~/.claude/skills/Agents/Templates/DynamicAgent.hbs`
 - AgentFactory tool: `~/.claude/skills/Agents/Tools/AgentFactory.ts`
-- Voice mappings: `~/.claude/skills/Agents/AgentPersonalities.md`
+- Personalities: `~/.claude/skills/Agents/AgentPersonalities.md`
