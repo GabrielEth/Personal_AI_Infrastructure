@@ -141,11 +141,6 @@ WebFetch(url, "Confirm article exists and summarize")
 | Enhance | src/skills/Research/Workflows/Enhance.md | Content enhancement |
 | Extract Knowledge | src/skills/Research/Workflows/ExtractKnowledge.md | Knowledge extraction |
 
-## Integration
-
-**Works well with:**
-- **BeCreative** - Deep thinking for Extract Alpha
-
 ## Credits
 
 - **Author:** Daniel Miessler

@@ -1,38 +1,18 @@
 # Delegation Workflow
 
-Comprehensive guide to delegating tasks to agents in the hybrid agent system.
+Comprehensive guide to delegating tasks to agents using Task tool subagent_types.
 
-## 🚨 CRITICAL: Agent Type Selection
+## Agent Type Selection
 
-**FIRST, determine what the user is asking for:**
+**Determine the right subagent_type for the task:**
 
 | User Says | Action | Tool |
 |-------------|--------|------|
-| "**custom agents**", "spin up **custom** agents" | Use **AgentFactory** to generate unique agents with distinct personalities | `bun run AgentFactory.ts` |
-| "spin up agents", "launch agents", "bunch of agents" | Use **generic Intern** agents for parallel grunt work | `Task(subagent_type="Intern")` |
+| "spin up agents", "launch agents", "bunch of agents" | Use **Intern** agents for parallel work | `Task(subagent_type="Intern")` |
 | "interns", "use interns" | Use **Intern** agents | `Task(subagent_type="Intern")` |
-| "use Ava", "get Remy to", "[named agent]" | Use the **named agent** directly | `Task(subagent_type="PerplexityResearcher")` |
-
-**The word "custom" is the KEY differentiator:**
-- "custom agents" → AgentFactory (unique prompts + unique personalities)
-- "agents" (no "custom") → Interns (parallel work)
-
-### 🚫 FORBIDDEN — Never Do This
-
-When user says "custom agents", **NEVER** use Task tool subagent_types directly:
-
-```typescript
-// ❌ WRONG - These are NOT custom agents
-Task({ subagent_type: "Architect", prompt: "..." })
-Task({ subagent_type: "Designer", prompt: "..." })
-Task({ subagent_type: "Engineer", prompt: "..." })
-```
-
-Task tool subagent_types (Architect, Designer, Engineer, etc.) are pre-built workflow agents. They do NOT use AgentFactory composition. They are for internal workflow use only.
-
-**For custom agents, invoke the Agents skill** → `Skill("Agents")` or follow CreateCustomAgent workflow.
-
-See: `SYSTEM/PAIAGENTSYSTEM.md` for full routing rules | `skills/Agents/SKILL.md` for agent composition system.
+| "build this", "implement", "code" | Use **Engineer** agents | `Task(subagent_type="Engineer")` |
+| "design the architecture" | Use **Architect** agents | `Task(subagent_type="Architect")` |
+| "research this" | Use **Researcher** agents | `Task(subagent_type="ClaudeResearcher")` |
 
 ---
 
@@ -41,148 +21,33 @@ See: `SYSTEM/PAIAGENTSYSTEM.md` for full routing rules | `skills/Agents/SKILL.md
 **Users just talk naturally.** Examples:
 
 - "Research these 5 companies for me" → I spawn 5 parallel Intern agents
-- "Spin up custom agents to analyze psychology" → I use AgentFactory for each agent
-- "I need a legal expert to review this contract" → I compose a dynamic agent
-- "Get Ava to investigate this" → I use the named Perplexity researcher
-- "I need someone skeptical about security to red-team this" → I compose security + skeptical + adversarial
+- "Build the login page" → I use an Engineer agent
+- "Design the system architecture" → I use an Architect agent
+- "Get someone to investigate this" → I use a Researcher agent
 
-**Users never touch CLI tools.** The system uses them internally based on what you ask for.
+**Users never touch CLI tools.** The system routes to the right subagent_type based on intent.
 
 ## Triggers
 
 - "delegate", "spawn agents", "launch agents" → Interns
-- "**custom agents**", "specialized agents" → AgentFactory
-- "use an intern", "use researcher", "use [agent name]" → Named/Intern
-- "in parallel", "parallelize" → Multiple agents
-- "I need an expert in", "get me someone who" → Dynamic composition
+- "use an intern", "use researcher" → Appropriate subagent_type
+- "in parallel", "parallelize" → Multiple Intern agents
+- "build", "implement", "code" → Engineer
+- "design", "architecture" → Architect
 
-## The Hybrid Agent Model
+## Available Subagent Types
 
-The system supports two types of agents:
-
-| Type | Definition | Best For |
-|------|------------|----------|
-| **Named Agents** | Persistent identities with backstories | Recurring work, relationship continuity |
-| **Dynamic Agents** | Task-specific specialists composed from traits | One-off tasks, novel combinations, parallel grunt work |
-
-**I decide which to use based on your request.** You don't need to specify.
-
-## Named Agents (When I Use Them)
-
-| Agent | Personality | I Use When You Say... |
-|-------|-------------|----------------------|
-| Ava (Perplexity) | Investigative journalist | "research", "find out", "investigate" |
-| Ava Sterling (Claude) | Strategic thinker | "analyze strategically", "what are implications" |
-| Alex (Gemini) | Multi-perspective | "get different viewpoints", "comprehensive" |
-| Johannes (Grok) | Contrarian fact-checker | "challenge this", "what's wrong with" |
-| Remy (Codex) | Curious technical archaeologist | "dig into the code", "how does this work" |
-| Marcus (Engineer) | Battle-scarred leader | "implement this", "build", "code" |
-| Serena (Architect) | Academic visionary | "design the system", "architecture" |
-| Rook (Pentester) | Reformed grey hat | "security test", "find vulnerabilities" |
-| Dev (Intern) | Brilliant overachiever | General-purpose, parallel tasks |
-
-## Dynamic Agents (When I Compose Them)
-
-When your request needs a specific expertise combination that no named agent provides, I compose one from traits.
-
-**Example:** "I need someone with legal expertise who's really skeptical to review this contract for security issues"
-
-I internally run:
-```
-AgentFactory --traits "legal,security,skeptical,meticulous,systematic"
-```
-
-And get a custom agent with exactly those characteristics.
-
-### Available Traits I Can Compose
-
-**Expertise** (domain knowledge):
-- security, legal, finance, medical, technical
-- research, creative, business, data, communications
-
-**Personality** (behavior style):
-- skeptical, enthusiastic, cautious, bold, analytical
-- creative, empathetic, contrarian, pragmatic, meticulous
-
-**Approach** (work style):
-- thorough, rapid, systematic, exploratory
-- comparative, synthesizing, adversarial, consultative
-
-### Example Compositions
-
-| You Say | I Compose |
-|---------|-----------|
-| "Legal expert, really thorough" | legal + meticulous + thorough |
-| "Security red team" | security + contrarian + adversarial |
-| "Quick business assessment" | business + pragmatic + rapid |
-| "Empathetic user researcher" | research + empathetic + synthesizing |
-
-## Internal Tools (For System Use)
-
-These are the tools I use behind the scenes:
-
-```bash
-# Compose dynamic agent
-bun run ~/.claude/skills/Agents/Tools/AgentFactory.ts --task "..." --output prompt
-
-# List available traits
-bun run ~/.claude/skills/Agents/Tools/AgentFactory.ts --list
-```
-
-### Available Traits
-
-**Expertise** (domain knowledge):
-- `security` - Vulnerabilities, threats, defense strategies
-- `legal` - Contracts, compliance, liability
-- `finance` - Valuation, markets, ROI
-- `medical` - Healthcare, clinical, treatment
-- `technical` - Software, architecture, debugging
-- `research` - Academic methodology, source evaluation
-- `creative` - Content, storytelling, visual thinking
-- `business` - Strategy, competitive analysis, operations
-- `data` - Statistics, visualization, patterns
-- `communications` - Messaging, audience, PR
-
-**Personality** (behavior style):
-- `skeptical` - Questions assumptions, demands evidence
-- `enthusiastic` - Finds excitement, positive framing
-- `cautious` - Considers edge cases, failure modes
-- `bold` - Takes risks, makes strong claims
-- `analytical` - Data-driven, logical, systematic
-- `creative` - Lateral thinking, unexpected connections
-- `empathetic` - Considers human impact, user-centered
-- `contrarian` - Takes opposing view, stress-tests
-- `pragmatic` - Focuses on what works
-- `meticulous` - Attention to detail, precision
-
-**Approach** (work style):
-- `thorough` - Exhaustive, no stone unturned
-- `rapid` - Quick assessment, key points
-- `systematic` - Structured, step-by-step
-- `exploratory` - Follow interesting threads
-- `comparative` - Evaluates options, trade-offs
-- `synthesizing` - Combines sources, integrates
-- `adversarial` - Red team, find weaknesses
-- `consultative` - Advisory, recommendations
-
-### Example Compositions
-
-```bash
-# Security architecture review
---traits "security,skeptical,thorough,adversarial"
-
-# Legal contract review
---traits "legal,cautious,meticulous,systematic"
-
-# Creative content development
---traits "creative,enthusiastic,exploratory"
-
-# Red team critique
---traits "contrarian,skeptical,adversarial,bold"
-
-# Quick business assessment
---traits "business,pragmatic,rapid,comparative"
-```
+| Subagent Type | Purpose | Best For |
+|---------------|---------|----------|
+| `Intern` | General-purpose parallel work | Grunt work, research, file operations |
+| `Engineer` | Code implementation | Writing code, building features |
+| `Architect` | System design | Architecture decisions, design review |
+| `Designer` | UX/UI design | Interface design, visual review |
+| `Explore` | Codebase exploration | Finding files, understanding structure |
+| `Pentester` | Security testing | Vulnerability assessment |
+| `ClaudeResearcher` | Claude-based research | Web research, analysis |
+| `GeminiResearcher` | Gemini-based research | Multi-perspective research |
+| `GrokResearcher` | Grok-based research | Contrarian analysis |
 
 ## Model Selection
 
@@ -217,7 +82,7 @@ Standard blocking delegation - waits for agent to complete.
 Task({
   description: "Research competitor",
   prompt: "Investigate Acme Corp's recent product launches...",
-  subagent_type: "PerplexityResearcher",
+  subagent_type: "ClaudeResearcher",
   model: "sonnet"
 })
 // Blocks until complete, returns result
@@ -274,7 +139,7 @@ See: `Workflows/BackgroundDelegation.md` for full details.
 Task({
   description: "Background research",
   prompt: "Research X...",
-  subagent_type: "PerplexityResearcher",
+  subagent_type: "ClaudeResearcher",
   model: "haiku",
   run_in_background: true  // Returns immediately
 })
@@ -289,16 +154,16 @@ TaskOutput({ agentId: "abc123", block: true })
 
 ## Decision Matrix
 
-### Named vs Dynamic
+### Subagent Type Selection
 
 | Situation | Choice | Reason |
 |-----------|--------|--------|
-| "Research AI news" | Named (Ava/Perplexity) | Standard research |
-| "Review this contract for security risks" | Dynamic (legal+security+cautious) | Novel combination |
-| "Explore the codebase" | Named (Explore agent) | Built for this |
-| "Create 5 parallel researchers" | Dynamic (research+rapid) | Grunt work, no personality needed |
-| "Red team this idea" | Named (Johannes) OR Dynamic | Depends on complexity |
-| "Strategic architecture review" | Named (Serena) | Deep expertise, relationship |
+| "Research AI news" | ClaudeResearcher | Standard research |
+| "Build the login form" | Engineer | Code implementation |
+| "Design the API" | Architect | System design |
+| "Create 5 parallel researchers" | Intern (x5) | Parallel grunt work |
+| "Security test this" | Pentester | Security expertise |
+| "Explore the codebase" | Explore | Built for this |
 
 ### Foreground vs Background
 
@@ -348,9 +213,5 @@ Task({
 
 ## Related
 
-- **Agents skill**: `~/.claude/skills/Agents/` - Complete agent composition system
-  - Agent personalities: `AgentPersonalities.md`
-  - Traits: `Data/Traits.yaml`
-  - Agent factory: `Tools/AgentFactory.ts`
-  - Workflows: `Workflows/CreateCustomAgent.md`, `Workflows/SpawnParallelAgents.md`
 - Background delegation: `~/.claude/skills/CORE/Workflows/BackgroundDelegation.md`
+- Agent system reference: `~/.claude/skills/CORE/SYSTEM/PAIAGENTSYSTEM.md`

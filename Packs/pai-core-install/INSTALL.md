@@ -527,5 +527,3 @@ source ~/.zshrc
 
 Install additional PAI packs to add capabilities:
 - pai-research-skill - Multi-model research
-- pai-agents-skill - Dynamic agent composition
-- And more...

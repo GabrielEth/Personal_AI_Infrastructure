@@ -11,7 +11,7 @@ extracted_from: SKILL.md lines 535-627
 
 ---
 
-## 🤝 Delegation & Parallelization (Always Active)
+## Delegation & Parallelization (Always Active)
 
 **WHENEVER A TASK CAN BE PARALLELIZED, USE MULTIPLE AGENTS!**
 
@@ -54,6 +54,16 @@ Task({ prompt: "Design the distributed caching strategy", subagent_type: "Archit
 
 ### Agent Types
 
+The Task tool provides subagent_types for different roles:
+
+| Subagent Type | Purpose | When Used |
+|---------------|---------|-----------|
+| `Architect` | System design | Architecture decisions |
+| `Designer` | UX/UI design | Design workflows |
+| `Engineer` | Code implementation | Building features |
+| `Intern` | General-purpose parallel work | Parallel grunt work, research |
+| `Explore` | Codebase exploration | Finding files, understanding structure |
+
 The Intern Agent is your high-agency genius generalist - perfect for parallel execution:
 - Updating multiple files simultaneously
 - Researching multiple topics at once
@@ -72,27 +82,6 @@ The Intern Agent is your high-agency genius generalist - perfect for parallel ex
 - If task involves writing code → Use Development Skill with Engineer Agents
 - Interns can delegate to engineers when code changes are needed
 
-### 🚨 CUSTOM AGENTS vs GENERIC AGENTS (Always Active)
-
-**The word "custom" is the KEY trigger:**
-
-| User Says | What to Use | Why |
-|-------------|-------------|-----|
-| "**custom agents**", "spin up **custom** agents" | **AgentFactory** | Unique prompts, unique personalities |
-| "spin up agents", "bunch of agents", "launch agents" | **Intern agents** | Generic parallel workers |
-| "interns", "use interns" | **Intern agents** | Obviously |
-
-**When user says "custom agents":**
-1. Invoke the Agents skill → CreateCustomAgent workflow
-2. Use DIFFERENT trait combinations to get unique personalities
-3. Launch with the full AgentFactory-generated prompt
-
-**When user says "spin up agents" (no "custom"):**
-1. Invoke the Agents skill → SpawnParallelAgents workflow
-2. No AgentFactory needed
-
-**Reference:** Agents skill (`~/.claude/skills/Agents/SKILL.md`)
-
 **Full Context Requirements:**
 When delegating, ALWAYS include:
 1. WHY this task matters (business context)
@@ -106,4 +95,3 @@ When delegating, ALWAYS include:
 - SKILL.md > Delegation (Quick Reference) - Condensed trigger table
 - Workflows/Delegation.md - Operational delegation procedures
 - Workflows/BackgroundDelegation.md - Background agent patterns
-- skills/Agents/SKILL.md - Custom agent creation system

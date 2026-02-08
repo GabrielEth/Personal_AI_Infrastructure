@@ -1,73 +1,12 @@
 # PAI Agent System
 
-**Authoritative reference for agent routing in PAI. Three distinct systems exist—never confuse them.**
+**Authoritative reference for agent routing in PAI.**
 
 ---
 
-## 🚨 THREE AGENT SYSTEMS — CRITICAL DISTINCTION
+## Task Tool Subagent Types
 
-PAI has three agent systems that serve different purposes. Confusing them causes routing failures.
-
-| System | What It Is | When to Use | Notes |
-|--------|-----------|-------------|-------|
-| **Task Tool Subagent Types** | Pre-built agents in Claude Code (Architect, Designer, Engineer, Intern, Explore, etc.) | Internal workflow use ONLY | N/A |
-| **Named Agents** | Persistent identities with backstories (Serena, Marcus, Rook, etc.) | Recurring work, relationships | N/A |
-| **Custom Agents** | Dynamic agents composed via AgentFactory from traits | When user says "custom agents" | N/A |
-
----
-
-## 🚫 FORBIDDEN PATTERNS
-
-**When user says "custom agents":**
-
-```typescript
-// ❌ WRONG - These are Task tool subagent_types, NOT custom agents
-Task({ subagent_type: "Architect", prompt: "..." })
-Task({ subagent_type: "Designer", prompt: "..." })
-Task({ subagent_type: "Engineer", prompt: "..." })
-
-// ✅ RIGHT - Invoke the Agents skill for custom agents
-Skill("Agents")  // → CreateCustomAgent workflow
-// OR follow the workflow directly:
-// 1. Run AgentFactory with different trait combinations
-// 2. Launch agents with the generated prompts
-// 3. Each gets unique personality
-```
-
----
-
-## Routing Rules
-
-### The Word "Custom" Is the Trigger
-
-| User Says | Action | Implementation |
-|-----------|--------|----------------|
-| "**custom agents**", "spin up **custom** agents" | Invoke Agents skill | `Skill("Agents")` → CreateCustomAgent workflow |
-| "agents", "launch agents", "parallel agents" | Generic Interns | `Task({ subagent_type: "Intern" })` |
-| "use Remy", "get Ava to" | Named agent | Use appropriate researcher subagent_type |
-| (Internal workflow calls) | Task subagent_types | `Task({ subagent_type: "Engineer" })` etc. |
-
-### Custom Agent Creation Flow
-
-When user requests custom agents:
-
-1. **Invoke Agents skill** via `Skill("Agents")` or follow CreateCustomAgent workflow
-2. **Run AgentFactory** for EACH agent with DIFFERENT trait combinations
-3. **Extract prompt** from AgentFactory output
-4. **Launch agents** with Task tool using the composed prompts
-
-```bash
-# Example: 3 custom research agents
-bun run ~/.claude/skills/Agents/Tools/AgentFactory.ts --traits "research,enthusiastic,exploratory"
-bun run ~/.claude/skills/Agents/Tools/AgentFactory.ts --traits "research,skeptical,systematic"
-bun run ~/.claude/skills/Agents/Tools/AgentFactory.ts --traits "research,analytical,synthesizing"
-```
-
----
-
-## Task Tool Subagent Types (Internal Use Only)
-
-These are pre-built agents in the Claude Code Task tool. They are for **internal workflow use**, not for user-requested "custom agents."
+PAI uses Claude Code's built-in Task tool with subagent_types for delegating work to specialized agents. Each subagent_type brings a different perspective and capability.
 
 | Subagent Type | Purpose | When Used |
 |---------------|---------|-----------|
@@ -83,43 +22,41 @@ These are pre-built agents in the Claude Code Task tool. They are for **internal
 | `GeminiResearcher` | Gemini-based research | Research skill workflows |
 | `GrokResearcher` | Grok-based research | Research skill workflows |
 
-**These do NOT use AgentFactory composition.**
+---
+
+## Routing Rules
+
+| User Says | Action | Implementation |
+|-----------|--------|----------------|
+| "agents", "launch agents", "parallel agents" | Generic Interns | `Task({ subagent_type: "Intern" })` |
+| "interns", "use interns" | Intern agents | `Task({ subagent_type: "Intern" })` |
+| (Internal workflow calls) | Task subagent_types | `Task({ subagent_type: "Engineer" })` etc. |
 
 ---
 
-## Named Agents (Persistent Identities)
+## Intern Agents (Parallel Work)
 
-Named agents have rich backstories and personality traits. They provide relationship continuity across sessions.
+The Intern agent is the workhorse for parallel execution. Use Intern agents when you need to:
 
-| Agent | Role | Use For |
-|-------|------|---------|
-| Serena Blackwood | Architect | Long-term architecture decisions |
-| Marcus Webb | Engineer | Strategic technical leadership |
-| Rook Blackburn | Pentester | Security testing with personality |
-| Dev Patel | Intern | Parallel grunt work |
-| Ava Sterling | Claude Researcher | Strategic research |
-| Alex Rivera | Gemini Researcher | Comprehensive analysis |
+- Research multiple topics simultaneously
+- Update multiple files at once
+- Test multiple approaches in parallel
+- Process multiple items from a list
 
-**Full backstories:** `skills/Agents/AgentPersonalities.md`
+**How to launch parallel interns:**
 
----
+```typescript
+// Send as SINGLE message with MULTIPLE Task calls
+Task({ prompt: "Research topic A...", subagent_type: "Intern", model: "haiku" })
+Task({ prompt: "Research topic B...", subagent_type: "Intern", model: "haiku" })
+Task({ prompt: "Research topic C...", subagent_type: "Intern", model: "haiku" })
+// All run in parallel
+```
 
-## Custom Agents (Dynamic Composition)
-
-Custom agents are composed on-the-fly from traits using AgentFactory. Each unique trait combination creates a distinct personality.
-
-### Trait Categories
-
-**Expertise** (domain knowledge):
-`security`, `legal`, `finance`, `medical`, `technical`, `research`, `creative`, `business`, `data`, `communications`
-
-**Personality** (behavior style):
-`skeptical`, `enthusiastic`, `cautious`, `bold`, `analytical`, `creative`, `empathetic`, `contrarian`, `pragmatic`, `meticulous`
-
-**Approach** (work style):
-`thorough`, `rapid`, `systematic`, `exploratory`, `comparative`, `synthesizing`, `adversarial`, `consultative`
-
-**Full trait definitions:** `skills/Agents/Data/Traits.yaml`
+**CRITICAL: Interns vs Engineers:**
+- **INTERNS:** Research, analysis, investigation, file reading, testing, coordinating
+- **ENGINEERS:** Writing ANY code, building features, implementing changes
+- If task involves writing code → Use Engineer subagent_type
 
 ---
 
@@ -134,8 +71,14 @@ Always specify the appropriate model for agent work:
 | Deep reasoning, architecture | `opus` | Maximum intelligence |
 
 ```typescript
-// Parallel custom agents benefit from haiku/sonnet for speed
-Task({ prompt: agentPrompt, subagent_type: "Intern", model: "sonnet" })
+// Haiku for simple parallel work
+Task({ prompt: "Check file exists", subagent_type: "Intern", model: "haiku" })
+
+// Sonnet for standard coding
+Task({ prompt: "Implement login form", subagent_type: "Engineer", model: "sonnet" })
+
+// Opus for architecture decisions
+Task({ prompt: "Design caching strategy", subagent_type: "Architect", model: "opus" })
 ```
 
 ---
@@ -156,12 +99,9 @@ Task({
 
 ## References
 
-- **Agents Skill:** `skills/Agents/SKILL.md` — Custom agent creation, workflows
-- **AgentFactory:** `skills/Agents/Tools/AgentFactory.ts` — Dynamic composition tool
-- **Traits:** `skills/Agents/Data/Traits.yaml` — Trait definitions
-- **Agent Personalities:** `skills/Agents/AgentPersonalities.md` — Named agent backstories
 - **Delegation Workflow:** `skills/CORE/Workflows/Delegation.md` — Delegation patterns
+- **Background Delegation:** `skills/CORE/Workflows/BackgroundDelegation.md` — Background agent patterns
 
 ---
 
-*Last updated: 2026-01-14*
+*Last updated: 2026-02-08*

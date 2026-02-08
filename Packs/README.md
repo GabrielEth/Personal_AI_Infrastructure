@@ -164,28 +164,20 @@ PAI System
 
 ---
 
-## Available Packs (23 Total)
+## Available Packs (3 Total)
 
-### Infrastructure Packs (5)
+### Infrastructure Packs (2)
 
 | Pack | Category | Description |
 |------|----------|-------------|
 | [**pai-hook-system**](pai-hook-system/) | Foundation | Event-driven automation framework - the foundation for all hook-based capabilities |
 | [**pai-core-install**](pai-core-install/) | Core | Skills + Identity + Architecture - the complete foundation with routing, response format, MEMORY system |
-### Skill Packs (10)
+
+### Skill Packs (1)
 
 | Pack | Category | Description |
 |------|----------|-------------|
-| [**pai-agents-skill**](pai-agents-skill/) | Delegation | Dynamic agent composition with unique personalities, voices, and trait combinations |
-| [**pai-algorithm-skill**](pai-algorithm-skill/) | Methodology | The Algorithm implementation - ISC management, effort classification, verifiable iteration |
-| [**pai-council-skill**](pai-council-skill/) | Analysis | Multi-agent debate system for exploring perspectives and reaching consensus |
-| [**pai-createcli-skill**](pai-createcli-skill/) | Development | Generate TypeScript CLI tools with bun runtime |
-| [**pai-createskill-skill**](pai-createskill-skill/) | Development | Create and validate PAI skills with proper structure |
-| [**pai-firstprinciples-skill**](pai-firstprinciples-skill/) | Analysis | First principles decomposition and root cause analysis |
-| [**pai-prompting-skill**](pai-prompting-skill/) | Methodology | Meta-prompting system with Handlebars templates and Claude best practices |
-| [**pai-redteam-skill**](pai-redteam-skill/) | Security | Adversarial analysis with 32 specialized agents for stress testing ideas |
 | [**pai-research-skill**](pai-research-skill/) | Research | Multi-source research with parallel agent execution and Fabric patterns |
-| [**pai-system-skill**](pai-system-skill/) | Maintenance | System integrity checks, documentation updates, and security scanning |
 
 ---
 
@@ -259,9 +251,7 @@ See [.env.example](../.env.example) for the complete list of supported variables
 | **Routing** | Intent detection and capability dispatch | Skill System |
 | **Notifications** | User feedback and accessibility | Voice System |
 | **Personality** | Identity, response format, principles | Identity |
-| **Delegation** | Agent orchestration and parallel execution | Agents Skill |
 | **Creativity** | Visual and creative content generation | Art Skill |
-| **Methodology** | Prompt engineering and meta-prompting | Prompting Skill |
 | **Automation** | Browser automation and web verification | Browser Skill |
 
 ---

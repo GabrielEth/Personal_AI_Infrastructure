@@ -147,18 +147,9 @@ When fully installed (wizard + all required packs), the PAI bundle gives you:
 
 | Pack | Purpose |
 |------|---------|
-| [pai-agents-skill](../../Packs/pai-agents-skill/) | Dynamic agent composition |
-| [pai-algorithm-skill](../../Packs/pai-algorithm-skill/) | The Algorithm - verifiable iteration |
-| [pai-council-skill](../../Packs/pai-council-skill/) | Multi-agent debate |
-| [pai-createcli-skill](../../Packs/pai-createcli-skill/) | CLI tool generation |
-| [pai-createskill-skill](../../Packs/pai-createskill-skill/) | Skill creation |
-| [pai-firstprinciples-skill](../../Packs/pai-firstprinciples-skill/) | First principles analysis |
-| [pai-prompting-skill](../../Packs/pai-prompting-skill/) | Meta-prompting system |
-| [pai-redteam-skill](../../Packs/pai-redteam-skill/) | Adversarial analysis |
 | [pai-research-skill](../../Packs/pai-research-skill/) | Multi-source research |
-| [pai-system-skill](../../Packs/pai-system-skill/) | System maintenance |
 
-> **Alternative:** Use a [Full Release](../../Releases/v2.4/) which includes all 12 packs pre-configured in a complete `.claude/` directory.
+> **Alternative:** Use a [Full Release](../../Releases/v2.4/) which includes all packs pre-configured in a complete `.claude/` directory.
 
 ### How to Install Packs
 
@@ -237,7 +228,7 @@ mv ~/.claude-BACKUP ~/.claude
 
 For example, `pai-hook-system` provides an entire event-driven automation framework with all code files ready to copy.
 
-**Bundles** are curated combinations of packs designed to work together. The Official PAI Bundle is 12 packs that form a complete AI infrastructure (2 required + 10 optional).
+**Bundles** are curated combinations of packs designed to work together. The Official PAI Bundle is 3 packs that form a complete AI infrastructure (2 required + 1 optional).
 
 ---
 
@@ -266,16 +257,16 @@ The PAI system embeds these principles from [Personal AI Infrastructure](https:/
 
 ### 2.4.0 - 2026-01-23
 - **The Algorithm:** 7-phase problem-solving with ISC tracking for verifiable iteration
-- **12 Packs:** Streamlined pack collection
+- **3 Packs:** Streamlined pack collection
 - **15 Hooks:** Refined hook architecture
 - **331 Workflows:** Comprehensive automation library
 - **Improved Wizard:** Renamed to PAIInstallWizard.ts, better interactive setup
 
 ### 2.3.0 - 2026-01-15
 - **Full Releases Return:** Added Releases/v2.3/ with complete .claude directory
-- **23 Packs Total:** 5 infrastructure + 18 skill packs
+- **3 Packs Total:** 2 infrastructure + 1 skill pack
 - **Continuous Learning:** Sentiment capture, rating system, learning extraction
-- **New Packs:** Added pai-council-skill, pai-createcli-skill, pai-createskill-skill, pai-firstprinciples-skill, pai-redteam-skill, pai-research-skill, pai-system-skill
+- **New Packs:** Added pai-research-skill
 - **History Retired:** MEMORY system in pai-core-install replaces standalone history pack
 
 ### 2.1.0 - 2026-01-08
@@ -288,7 +279,7 @@ The PAI system embeds these principles from [Personal AI Infrastructure](https:/
 - **Directory-based Packs:** All packs migrated from single markdown files to directory structure
 - **New Pack Format:** Each pack now contains README.md, INSTALL.md, VERIFY.md, and src/ directory
 - **Actual Code Files:** Source code now in real .ts, .yaml, .hbs files (not embedded in markdown)
-- **Two New Packs:** Added pai-prompting-skill, pai-agents-skill
+- **Directory-based Packs:** All packs migrated from single markdown files to directory structure
 - **Improved Installation:** AI agents copy actual files instead of extracting from markdown blocks
 
 ### 1.2.0 - 2025-12-30

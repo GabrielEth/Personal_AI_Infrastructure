@@ -334,16 +334,19 @@ Located in `settings.json`:
 
 ## Agent System Architecture
 
-### Hybrid Model
+### Task Tool Subagent Types
 
-- **Named Agents:** Persistent identities with backstories
-- **Dynamic Agents:** Task-specific compositions from traits via AgentFactory
+PAI uses Claude Code's built-in Task tool with subagent_types for delegating work:
 
-### Delegation Patterns
+- **Specialized roles:** Architect, Engineer, Designer, Pentester, etc.
+- **Parallel work:** Intern agents for grunt work and research
+- **Spotcheck pattern:** Verify parallel work with additional agent
 
-- Custom agents → AgentFactory with unique personalities
-- Generic parallel work → Intern agents
-- Spotcheck pattern → Verify parallel work with additional agent
+### Model Selection
+
+- `haiku` for simple checks and parallel grunt work (10-20x faster)
+- `sonnet` for standard implementation and analysis
+- `opus` for deep reasoning and architecture decisions
 
 ---
 
@@ -418,20 +421,15 @@ PRIVATE: ~/.claude/                    PUBLIC: ~/Projects/PAI/
 
 ## System Self-Management
 
-**PAI manages its own integrity, security, and documentation through the System skill.**
+**PAI manages its own integrity, security, and documentation.**
 
-The System skill is the centralized mechanism for PAI self-management. It ensures the infrastructure remains healthy, secure, and well-documented.
+PAI self-management ensures the infrastructure remains healthy, secure, and well-documented through:
 
-### Capabilities
-
-| Function | Description | Workflow |
-|----------|-------------|----------|
-| **Integrity Audits** | 16 parallel agents verify broken references across ~/.claude | `PrivateSystemAudit.md` |
-| **Secret Scanning** | TruffleHog credential detection in any directory | `SecretScanning.md` |
-| **Privacy Validation** | Ensures USER/WORK content isolation from regular skills | `PrivacyCheck.md` |
-| **Cross-Repo Validation** | Verifies private/public repository separation | `CrossRepoValidation.md` |
-| **Documentation Updates** | Records system changes to MEMORY/PAISYSTEMUPDATES/ | `DocumentChanges.md` |
-| **Repo Management** | Auto-parses session activity for commits | `UpdateRepo.md` |
+- **Integrity Audits** - Verify broken references across ~/.claude
+- **Secret Scanning** - TruffleHog credential detection before commits
+- **Privacy Validation** - Ensure USER/WORK content isolation
+- **Cross-Repo Validation** - Verify private/public repository separation
+- **Documentation Updates** - Record system changes to MEMORY/PAISYSTEMUPDATES/
 
 ### Protected Directories
 
@@ -441,19 +439,6 @@ The System skill is the centralized mechanism for PAI self-management. It ensure
 | `skills/CORE/WORK/` | Customer data, consulting, client deliverables | RESTRICTED |
 
 **Rule:** Content from USER/ and WORK/ must NEVER appear outside of them or in the public PAI repository.
-
-### Foreground Execution
-
-The System skill runs in the foreground so you can see all output and progress as work happens. Documentation updates, integrity checks, and system operations are visible for transparency.
-
-### When to Use
-
-- **Integrity Checks:** After major refactoring, before releases, periodic health checks
-- **Secret Scanning:** Before any git commit to public repos
-- **Privacy Validation:** After working with USER/WORK content, before public commits
-- **Documentation:** End of significant work sessions, after creating new skills
-
-**Full documentation:** `skills/System/SKILL.md`
 
 ---
 

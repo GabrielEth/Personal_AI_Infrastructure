@@ -8,7 +8,7 @@
 
 This document defines the **required structure** for every skill in the PAI system.
 
-**ALL skill creation MUST follow this structure** - including skills created by the CreateSkill skill.
+**ALL skill creation MUST follow this structure.**
 
 **"Canonicalize a skill"** = Restructure it to match this exact format, including TitleCase naming.
 
@@ -22,12 +22,12 @@ If a skill does not follow this structure, it is not properly configured and wil
 
 | Component | Wrong | Correct |
 |-----------|-------|---------|
-| Skill directory | `createskill`, `create-skill`, `CREATE_SKILL` | `Createskill` or `CreateSkill` |
+| Skill directory | `research`, `my-research`, `RESEARCH_SKILL` | `Research` or `MyResearch` |
 | Workflow files | `create.md`, `update-info.md`, `SYNC_REPO.md` | `Create.md`, `UpdateInfo.md`, `SyncRepo.md` |
 | Reference docs | `prosody-guide.md`, `API_REFERENCE.md` | `ProsodyGuide.md`, `ApiReference.md` |
 | Tool files | `manage-server.ts`, `MANAGE_SERVER.ts` | `ManageServer.ts` |
 | Help files | `manage-server.help.md` | `ManageServer.help.md` |
-| YAML name | `name: create-skill` | `name: CreateSkill` |
+| YAML name | `name: my-research` | `name: Research` |
 
 **TitleCase Rules:**
 - First letter of each word capitalized
@@ -114,10 +114,9 @@ These define user-specific preferences. If the directory does not exist, proceed
 │   ├── PREFERENCES.md           # Aesthetic preferences
 │   ├── CharacterSpecs.md        # Character design specs
 │   └── SceneConstruction.md     # Scene building guidelines
-├── Agents/                      # Agents skill customizations
+├── Research/                     # Research skill customizations
 │   ├── EXTEND.yaml              # Extension manifest
-│   ├── PREFERENCES.md           # Named agent summary
-│   └── AgentConfig.json         # Agent configuration
+│   └── PREFERENCES.md           # Research preferences
 ├── FrontendDesign/              # FrontendDesign customizations
 │   ├── EXTEND.yaml              # Extension manifest
 │   └── PREFERENCES.md           # Design tokens, palette
@@ -222,7 +221,6 @@ science_cycle_time: meso
 - **Development** - TDD is Science (test = goal, code = experiment, pass/fail = analysis)
 - **Evals** - Prompt optimization through systematic experimentation
 - **Research** - Investigation through hypotheses and evidence gathering
-- **Council** - Debate as parallel hypothesis testing
 
 **See:** `~/.claude/skills/Science/Protocol.md` for the full protocol interface
 
@@ -489,12 +487,7 @@ Don't bother for:
 
 ### How to Canonicalize
 
-Use the Createskill skill's CanonicalizeSkill workflow:
-```
-~/.claude/skills/Createskill/Workflows/CanonicalizeSkill.md
-```
-
-Or manually:
+Manually:
 1. Rename files to TitleCase
 2. Update YAML frontmatter to single-line description
 3. Add `## Workflow Routing` table
@@ -668,8 +661,8 @@ skills/Research/Workflows/CompanyDueDiligence.md   # Workflow - one level deep
 skills/Research/Tools/Analyze.ts                   # Tool - one level deep
 skills/Research/CompanyTools.md                    # Context file - in root
 skills/Research/Examples.md                        # Context file - in root
-skills/Prompting/BeCreative.md                     # Templates in Prompting root
-skills/Prompting/StoryExplanation.md               # Templates in Prompting root
+skills/Research/QuickReference.md                  # Context file - in root
+skills/Research/UrlVerificationProtocol.md         # Context file - in root
 skills/PromptInjection/DefenseMechanisms.md        # Context file - in root
 skills/PromptInjection/QuickStartGuide.md          # Context file - in root
 ```
@@ -681,7 +674,6 @@ skills/Research/Resources/Examples.md              # Context files go in root, N
 skills/Research/Docs/CompanyTools.md               # Context files go in root, NOT Docs/
 skills/Research/Templates/Primitives/Extract.md    # THREE levels - NO
 skills/Research/Workflows/Company/DueDiligence.md  # THREE levels - NO (use CompanyDueDiligence.md instead)
-skills/Prompting/Templates/BeCreative.md           # Templates in root, NOT Templates/ subdirectory
 skills/Research/Workflows/Analysis/Deep.md         # THREE levels - NO
 ```
 
@@ -706,11 +698,6 @@ skills/Research/Workflows/Analysis/Deep.md         # THREE levels - NO
    - CLI tools, automation scripts
    - Correct: `Tools/Analyze.ts`
    - Wrong: `Tools/Analysis/Analyze.ts`
-
-**Templates (Prompting skill only):**
-- Templates live in `skills/Prompting/` root, NOT nested
-- Correct: `skills/Prompting/BeCreative.md`
-- Wrong: `skills/Prompting/Templates/BeCreative.md`
 
 ### Context/Resource Files Go in Skill Root
 

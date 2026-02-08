@@ -194,10 +194,7 @@ cp SKILL.md $PAI_DIR/skills/[SkillName]/
 
 **Mark todo "Install dependencies" as in_progress.**
 
-\```bash
-cd $PAI_DIR/skills/[SkillName]
-bun install
-\```
+Check if any dependencies are needed and inform the user. Do NOT run package install commands automatically — the user's environment may have its own package management process.
 
 **Mark todo as completed.**
 

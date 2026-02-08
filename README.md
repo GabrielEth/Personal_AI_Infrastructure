@@ -35,7 +35,7 @@
 <!-- Content -->
 [![Get Started](https://img.shields.io/badge/🚀_Get_Started-Install-22C55E?style=flat)](#-installation)
 [![Release v2.5](https://img.shields.io/badge/📦_Release-v2.5-8B5CF6?style=flat)](Releases/v2.5/)
-[![Packs](https://img.shields.io/badge/📦_Packs-12-8B5CF6?style=flat)](Packs/)
+[![Packs](https://img.shields.io/badge/📦_Packs-3-8B5CF6?style=flat)](Packs/)
 [![Bundles](https://img.shields.io/badge/🎁_Bundles-1-F97316?style=flat)](Bundles/)
 [![Contributors](https://img.shields.io/github/contributors/danielmiessler/PAI?style=flat&logo=githubsponsors&logoColor=white&label=Contributors&color=EC4899)](https://github.com/danielmiessler/PAI/graphs/contributors)
 
@@ -449,18 +449,9 @@ Each pack includes everything needed: code, workflows, installation instructions
 
 | Pack | Description |
 |------|-------------|
-| [**pai-agents-skill**](Packs/pai-agents-skill/) | Dynamic agent composition with personality mapping |
-| [**pai-algorithm-skill**](Packs/pai-algorithm-skill/) | ISC management, effort classification |
-| [**pai-council-skill**](Packs/pai-council-skill/) | Multi-agent debate system |
-| [**pai-createcli-skill**](Packs/pai-createcli-skill/) | Generate TypeScript CLI tools |
-| [**pai-createskill-skill**](Packs/pai-createskill-skill/) | Create and validate PAI skills |
-| [**pai-firstprinciples-skill**](Packs/pai-firstprinciples-skill/) | First principles analysis |
-| [**pai-prompting-skill**](Packs/pai-prompting-skill/) | Meta-prompting system |
-| [**pai-redteam-skill**](Packs/pai-redteam-skill/) | Adversarial analysis with 32 agents |
 | [**pai-research-skill**](Packs/pai-research-skill/) | Multi-source research |
-| [**pai-system-skill**](Packs/pai-system-skill/) | System maintenance and integrity checks |
 
-> **12 packs total** — 2 infrastructure + 10 skills. All extracted from production PAI systems.
+> **3 packs total** -- 2 infrastructure + 1 skill. All extracted from production PAI systems.
 
 ---
 
@@ -470,7 +461,7 @@ Each pack includes everything needed: code, workflows, installation instructions
 
 | Bundle | Description | Packs |
 |--------|-------------|-------|
-| [**PAI Bundle**](Bundles/Official/) | The official PAI bundle - complete personal AI infrastructure | 5 |
+| [**PAI Bundle**](Bundles/Official/) | The official PAI bundle - complete personal AI infrastructure | 3 |
 
 **Quick install:**
 ```bash
@@ -633,9 +624,9 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 **v2.5.0 (2026-01-30) — Think Deeper, Execute Faster**
 - Two-Pass Capability Selection: Hook hints validated against ISC in THINK phase
-- Thinking Tools with Justify-Exclusion: Opt-OUT, not opt-IN for Council, RedTeam, FirstPrinciples, etc.
+- Thinking Tools with Justify-Exclusion: Opt-OUT, not opt-IN for deep analysis tools
 - Parallel-by-Default Execution: Independent tasks run concurrently via parallel agent spawning
-- 12 packs, 17 hooks
+- 3 packs, 17 hooks
 - [Release Notes](Releases/v2.5/README.md)
 
 **v2.4.0 (2026-01-23) — The Algorithm**
@@ -660,7 +651,6 @@ MIT License - see [LICENSE](LICENSE) for details.
 - Source code now in real files instead of embedded markdown
 
 **v2.0.1 (2025-12-30) — Pack Expansion**
-- Added Prompting and Agents skills
 - Standardized authentication to single `.env` location
 
 **v2.0.0 (2025-12-28) — PAI Packs System Launch**

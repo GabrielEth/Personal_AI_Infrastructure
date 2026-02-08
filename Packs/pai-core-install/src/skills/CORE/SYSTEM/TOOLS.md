@@ -72,7 +72,7 @@ if (result.success) {
 
 ## TruffleHog - Scan for Exposed Secrets
 
-**Location:** System-installed CLI tool (`brew install trufflehog`)
+**Location:** System-installed CLI tool (install via your system's package manager)
 
 Scan directories for 700+ types of credentials and secrets.
 
@@ -89,9 +89,7 @@ trufflehog filesystem /path/to/directory --only-verified
 ```
 
 **Installation:**
-```bash
-brew install trufflehog
-```
+Install `trufflehog` using your system's package manager.
 
 **When to Use:**
 - "check for secrets"

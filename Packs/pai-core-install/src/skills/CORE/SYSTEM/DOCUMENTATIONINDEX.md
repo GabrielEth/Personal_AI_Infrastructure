@@ -50,7 +50,7 @@ See `SYSTEM/SKILLSYSTEM.md` for complete documentation.
 - Testing standards → Development Skill
 
 **Agent System:**
-- **Agents Skill** (`~/.claude/skills/Agents/`) - Complete agent composition system | See Agents skill for custom agent creation and traits
+- `SYSTEM/PAIAGENTSYSTEM.md` - Task tool subagent_types and delegation patterns
 - Delegation patterns are documented inline in the "Delegation & Parallelization" section below
 
 **Response & Communication:**

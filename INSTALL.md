@@ -116,9 +116,8 @@ If they chose the PAI Bundle, explain what's included:
 
 | Pack | What It Does |
 |------|--------------|
-| **pai-hook-system** | Event-driven automation — the foundation everything else builds on |
+| **pai-hook-system** | Event-driven automation -- the foundation everything else builds on |
 | **pai-core-install** | Identity, skills routing, system configuration, and memory system |
-| **pai-agents-skill** | Dynamic agent composition with personality traits |
 
 **Ask: Ready to install the PAI Bundle?**
 - Yes, install everything
@@ -139,7 +138,6 @@ For each pack being installed:
 **Installation order matters.** Install in this sequence:
 1. pai-hook-system (foundation - hooks enable everything else)
 2. pai-core-install (identity, skills, memory system)
-3. pai-agents-skill (agent composition - requires core)
 
 ---
 
