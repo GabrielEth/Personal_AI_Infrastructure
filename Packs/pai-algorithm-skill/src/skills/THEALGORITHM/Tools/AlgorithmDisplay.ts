@@ -79,17 +79,9 @@ interface AlgorithmState {
   request?: string;
 }
 
-// Voice notification
-async function announceVoice(message: string): Promise<void> {
-  try {
-    await fetch("http://localhost:8888/notify", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message }),
-    });
-  } catch {
-    // Voice server not running - silent fail
-  }
+// Voice notification (disabled - no external calls)
+async function announceVoice(_message: string): Promise<void> {
+  // No-op: voice server removed
 }
 
 function ensureStateDir(): void {

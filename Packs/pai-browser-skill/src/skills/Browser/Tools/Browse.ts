@@ -19,7 +19,6 @@
 
 import { PlaywrightBrowser } from '../index.ts'
 
-const VOICE_SERVER = 'http://localhost:8888/notify'
 const STATE_FILE = '/tmp/browser-session.json'
 const DEFAULT_PORT = 9222
 const SESSION_TIMEOUT = 5000 // 5s to wait for session start
@@ -89,16 +88,8 @@ interface Diagnostics {
 // UTILITIES
 // ============================================
 
-async function notify(message: string): Promise<void> {
-  try {
-    await fetch(VOICE_SERVER, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message })
-    })
-  } catch {
-    // Voice server not running - silent fail
-  }
+async function notify(_message: string): Promise<void> {
+  // No-op: voice server removed
 }
 
 function formatBytes(bytes: number): string {
